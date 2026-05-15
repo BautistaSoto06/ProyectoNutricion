@@ -1,0 +1,14 @@
+# Dependencias (son muy pesadas y se vuelven a instalar con npm install)
+node_modules/
+
+# Variables de entorno / Credenciales (¡Acá está tu clave de Supabase!)
+.env
+
+# Archivos de logs de errores de npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Carpetas de configuración de editores (opcional)
+.vscode/
+.idea/
