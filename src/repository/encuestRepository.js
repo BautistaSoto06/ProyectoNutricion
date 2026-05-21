@@ -8,10 +8,10 @@ export class EncuestRepository {
                 console.error('Error fetching encuestas:', error);
                 throw error;
             }
-        return data;    
+        return data.map(serveyJson => new Encuesta(serveyJson));    
 
         }catch (error) {
-            console.error('Error in getAll:', error);
+            console.error('Error encuesta repository getAll:', error);
             throw error;
         }
     }
