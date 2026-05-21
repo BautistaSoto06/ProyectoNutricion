@@ -1,6 +1,7 @@
 import { supabase } from '../config/Supabase.js';
+import { Encuesta } from '../models/Encuesta.js';
 
-export class EncuestRepository {
+export class EncuestaRepository {
     async getAll() {
         try {
             const { data, error } = await supabase.from('survey_responses').select('*'); 
