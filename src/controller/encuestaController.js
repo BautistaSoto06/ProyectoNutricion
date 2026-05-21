@@ -7,3 +7,18 @@ export class EncuestaController {
         try {
             const encuestas = await encuestRepository.getAll();
             
+            return res.status(200).json({
+                success: true,
+                count: encuestas.length,
+                data: encuestas
+            });
+        } catch (error) {
+            console.error('Error in getEstadisticas:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Error interno del servidor al obtener estadísticas',
+                error: error.message
+            });
+        }
+    }
+}
