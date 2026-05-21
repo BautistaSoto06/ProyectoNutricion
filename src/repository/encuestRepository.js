@@ -15,4 +15,25 @@ export class EncuestRepository {
             throw error;
         }
     }
+
+    /** 
+     * @param {Encuesta} encuestaInstancia
+     * @return {Promise<Encuesta>}
+     */
+    async create(encuestaInstancia) {
+        try {
+            const jsonParaInsertar = encuestaInstancia.toDatabaseJson();
+
+            const { data, error } = await supabase.from('survey_responses').insert([jsonParaInsertar]).select();
+
+            if (error) {
+                throw new Error(`Error de Supabase al crear encuesta: ${error.message}`);
+            }
+
+            return new Encuesta(data[0]);
+        } catch (error) {
+            console.error('Error en encuestRepository.create:', error);
+            throw error;
+        }
+    }
 }
