@@ -1,16 +1,12 @@
-// 1. Corregimos el import de la clase (la clase va con Mayúsculas 'EncuestaRepository')
 import { EncuestaRepository } from '../repository/EncuestaRepository.js';
-// 2. AGREGAMOS EL IMPORT DE LA ENTIDAD (Crucial para el new Encuesta())
 import { Encuesta } from '../models/Encuesta.js';
 
-// 3. Renombramos la variable a 'encuestaRepo' (en minúscula) para no pisar el nombre de la clase
 const encuestaRepo = new EncuestaRepository();
 
 export class EncuestaController {
     
     async getEstadisticas(req, res) {
         try {
-            // Usamos 'encuestaRepo' que es nuestra variable asignada arriba
             const encuestas = await encuestaRepo.getAll();
             
             return res.status(200).json({
@@ -30,6 +26,7 @@ export class EncuestaController {
 
     async crearEncuesta(req, res) {
         try {
+            //datos del formulario que se envían desde el frontend
             const datosFormulario = req.body;
 
             if (!datosFormulario || Object.keys(datosFormulario).length === 0) {
@@ -39,17 +36,17 @@ export class EncuestaController {
                 });
             }
 
-            // Ahora que pusimos el import arriba, esto va a funcionar de diez
+            //creamos una nueva encuesta con los datos del formulario
             const nuevaEncuesta = new Encuesta(datosFormulario);
 
+            //si la encuesta es valida la guardamos en la base de datos
             if (!nuevaEncuesta.isValid()) {
                 return res.status(400).json({
                     success: false,
                     message: 'Datos de la encuesta no válidos o fuera de rango',
                 });
-            }
-
-            // Corregimos acá: usamos 'encuestaRepo' (tenías puesto encuestRepository)
+            }  
+            //guardamos la encuesta en la base de datos
             const encuestaGuardada = await encuestaRepo.create(nuevaEncuesta);
             
             return res.status(201).json({
