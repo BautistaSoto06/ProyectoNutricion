@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -14,14 +15,15 @@ app.use(express.static('.'));
 
 app.use('/api/v1/encuestas', encuestaRouter);
 
-const PORT = process.env.PORT || 3000;
+// Aseguramos que Express pueda encontrar tu CSS y tu script.js en Vercel
+app.use(express.static(process.cwd()));
 
-//endpoints
-//app.get('/', async (req, res) => {
-    // res.json({message: 'API is working'});
-//});
+// Cuando alguien entre a la raíz, le enviamos el index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'index.html'));
+});
 
-//
+
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Servidor corriendo en el local http://localhost:${PORT}`);
