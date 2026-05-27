@@ -12,3 +12,5 @@ yarn-error.log*
 # Carpetas de configuración de editores (opcional)
 .vscode/
 .idea/
+.vercel
+.env*

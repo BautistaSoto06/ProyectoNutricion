@@ -17,11 +17,17 @@ app.use('/api/v1/encuestas', encuestaRouter);
 const PORT = process.env.PORT || 3000;
 
 //endpoints
-app.get('/', async (req, res) => {
-     res.json({message: 'API is working'});
-});
+//app.get('/', async (req, res) => {
+    // res.json({message: 'API is working'});
+//});
 
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el local http://localhost:${PORT}`);
-});
+//
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en el local http://localhost:${PORT}`);
+    });
+}
+
+// Exportamos la app para que Vercel la pueda consumir como Serverless Function
+export default app;
 
