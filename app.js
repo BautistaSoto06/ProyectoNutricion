@@ -15,14 +15,19 @@ app.use(express.static('.'));
 
 app.use('/api/v1/encuestas', encuestaRouter);
 
-// Aseguramos que Express pueda encontrar tu CSS y tu script.js en Vercel
+// Servir archivos estáticos (index.html, styless.css, script.js)
 app.use(express.static(process.cwd()));
 
-// Cuando alguien entre a la raíz, le enviamos el index.html
+// Solo arrancamos el servidor en desarrollo, en producción lo maneja Vercel como Serverless Function
 app.get('/', (req, res) => {
     res.sendFile(path.join(process.cwd(), 'index.html'));
 });
-
+app.get('/styless.css', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'styless.css'));
+});
+app.get('/script.js', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'script.js'));
+});
 
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
