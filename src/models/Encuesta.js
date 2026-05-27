@@ -1,16 +1,33 @@
 export class Encuesta {
-    constructor({id = null, gender, faculty, would_recommend, why_recommend,desc_odor, desc_aroma, desc_sweetness, desc_texture,intensity_banana, intensity_chocolate, intensity_garbanzo, intensity_carrot,created_at = null})
-
-    {
+    constructor({
+        id = null,
+        name = null,
+        age = null,
+        gender,
+        faculty,
+        would_recommend,
+        why_recommend,
+        desc_odor,
+        desc_aroma,
+        desc_sweetness,
+        desc_texture,
+        intensity_banana,
+        intensity_chocolate,
+        intensity_garbanzo,
+        intensity_carrot,
+        comments = null,
+        created_at = null
+    }) {
         this.id = id;
+        this.name = name;
+        this.age = age ? Number(age) : null;
         this.gender = gender;
         this.faculty = faculty;
-        this.role = role;
-        this.wouldRecommend = !!would_recommend;
+        this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
         this.whyRecommend = why_recommend;
+        this.comments = comments;
         this.createdAt = created_at;
-        
-        // Calificaciones
+
         this.descOdor = Number(desc_odor);
         this.descAroma = Number(desc_aroma);
         this.descSweetness = Number(desc_sweetness);
@@ -21,13 +38,23 @@ export class Encuesta {
         this.intensityCarrot = Number(intensity_carrot);
     }
 
+    isValid() {
+        const numerics = [
+            this.descOdor, this.descAroma, this.descSweetness, this.descTexture,
+            this.intensityBanana, this.intensityChocolate, this.intensityGarbanzo, this.intensityCarrot
+        ];
+        return numerics.every(v => !isNaN(v) && v >= 1 && v <= 10);
+    }
+
     toDatabaseJson() {
         return {
+            name: this.name,
+            age: this.age,
             gender: this.gender,
             faculty: this.faculty,
-            role: this.role,
             would_recommend: this.wouldRecommend,
             why_recommend: this.whyRecommend,
+            comments: this.comments,
             desc_odor: this.descOdor,
             desc_aroma: this.descAroma,
             desc_sweetness: this.descSweetness,

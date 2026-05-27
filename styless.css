@@ -231,7 +231,7 @@
     }
  
     /* ── EL DESLIZADOR ── */
-    #mi-deslizador {
+    input[type=range] {
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
@@ -243,19 +243,19 @@
     }
 
     /* Bolita en Chrome/Safari/Edge */
-    #mi-deslizador::-webkit-slider-thumb {
+    input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #F07229, #ff843f); 
+      background: linear-gradient(135deg, #F07229, #ff843f);
       cursor: pointer;
       box-shadow: 0 2px 8px #F0722950;
     }
 
     /* Bolita en Firefox */
-    #mi-deslizador::-moz-range-thumb {
+    input[type=range]::-moz-range-thumb {
       width: 24px;
       height: 24px;
       border: none;
