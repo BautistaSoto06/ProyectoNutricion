@@ -25,9 +25,7 @@ export class Encuesta {
         this.faculty = faculty;
         this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
         this.whyRecommend = why_recommend;
-        this.comments = comments;
-        this.createdAt = created_at;
-
+        
         this.descOdor = Number(desc_odor);
         this.descAroma = Number(desc_aroma);
         this.descSweetness = Number(desc_sweetness);
@@ -36,6 +34,8 @@ export class Encuesta {
         this.intensityChocolate = Number(intensity_chocolate);
         this.intensityGarbanzo = Number(intensity_garbanzo);
         this.intensityCarrot = Number(intensity_carrot);
+        this.comments = comments;
+        this.createdAt = created_at;
     }
 
     isValid() {
