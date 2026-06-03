@@ -1,0 +1,295 @@
+/* brownie.css
+   Usa las variables de index.css: --accent, --text, --text-h,
+   --bg, --border, --code-bg, --social-bg, --shadow, --accent-bg,
+   --accent-border, --sans, --heading
+*/
+
+/* ── Layout raíz ─────────────────────────────────────────────── */
+.bs-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: left;
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+.bs-hero {
+  padding: 48px 32px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.bs-hero h1 {
+  /* hereda los estilos de h1 del index.css */
+}
+
+.bs-subtitle {
+  color: var(--text);
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Card de sección ─────────────────────────────────────────── */
+.bs-card {
+  padding: 32px;
+  border-bottom: 1px solid var(--border);
+
+  @media (max-width: 1024px) {
+    padding: 24px 20px;
+  }
+}
+
+.bs-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.bs-card-header h2 {
+  margin: 0;
+}
+
+.bs-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ── Field ───────────────────────────────────────────────────── */
+.bs-field {
+  margin-bottom: 24px;
+}
+.bs-field:last-child {
+  margin-bottom: 0;
+}
+
+.bs-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+.bs-label--error {
+  color: #e05252;
+}
+
+.bs-error-msg {
+  display: block;
+  font-size: 12px;
+  color: #e05252;
+  margin-top: 6px;
+}
+
+/* ── Inputs / Select / Textarea ──────────────────────────────── */
+.bs-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--social-bg);
+  color: var(--text-h);
+  font-family: var(--sans);
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: var(--accent-border);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+}
+.bs-input--short {
+  width: 120px;
+}
+.bs-input--error {
+  border-color: #e05252;
+}
+.bs-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+select.bs-input {
+  cursor: pointer;
+}
+
+/* ── Chips ───────────────────────────────────────────────────── */
+.bs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bs-chips--error .bs-chip:not(.bs-chip--active) {
+  border-color: #e0525244;
+}
+
+.bs-chip {
+  padding: 7px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--accent-border);
+    color: var(--text-h);
+  }
+}
+.bs-chip--active {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── Slider ──────────────────────────────────────────────────── */
+.bs-slider {
+  width: 100%;
+}
+
+.bs-slider-track {
+  position: relative;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.bs-slider-track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.bs-slider-fill {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-border), var(--accent));
+  border-radius: 2px;
+  pointer-events: none;
+  transition: width 0.1s;
+}
+
+.bs-slider-input {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  height: 32px;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+}
+
+.bs-slider-thumb {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  transition: left 0.1s;
+  z-index: 1;
+}
+
+.bs-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text);
+  margin-top: 6px;
+}
+
+.bs-slider-value {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ── Footer / Submit ─────────────────────────────────────────── */
+.bs-footer {
+  padding: 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 1024px) {
+    padding: 24px 20px;
+  }
+}
+
+.bs-error-banner {
+  font-size: 13px;
+  color: #e05252;
+}
+
+.bs-submit {
+  padding: 12px 40px;
+  border-radius: 6px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
+
+  &:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Pantalla de gracias ──────────────────────────────────────── */
+.bs-thanks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-grow: 1;
+  padding: 48px 32px;
+  text-align: center;
+}
+.bs-thanks-icon {
+  font-size: 64px;
+}
+.bs-thanks p {
+  color: var(--text);
+  max-width: 400px;
+}
