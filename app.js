@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import encuestaRouter from './src/routes/v1/encuestaRouter.js';
+import encuestaRouterV2 from './src/routes/v2/encuestaRouter.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.static('.'));
 
 app.use('/api/v1/encuestas', encuestaRouter);
+app.use('/api/v2/encuestas', encuestaRouterV2);
 
 // Servir archivos estáticos (index.html, styless.css, script.js)
 app.use(express.static(process.cwd()));
