@@ -1,5 +1,5 @@
-import { EncuestaRepository } from '../../../src/repository/EncuestaRepository.js';
-import { Encuesta } from '../../../src/models/Encuesta.js';
+import { EncuestaRepository } from '../repository/EncuestaRepository.js';
+import { Encuesta } from '../models/Encuesta.js';
 
 const encuestaRepo = new EncuestaRepository();
 
