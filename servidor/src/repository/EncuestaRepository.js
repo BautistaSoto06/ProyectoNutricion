@@ -30,6 +30,7 @@ export class EncuestaRepository {
             const { data, error } = await supabase.from('survey_responses').insert([jsonParaInsertar]).select();
 
             if (error) {
+                console.error('Error detallado de Supabase:', error);
                 throw new Error(`Error de Supabase al crear encuesta: ${error.message}`);
             }
 

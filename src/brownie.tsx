@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './brownie.css';
+import './brownie.css'; 
 
 const BrownieSurvey: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +57,8 @@ const BrownieSurvey: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/api/v2/encuestas/submit', {
+      
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v2/encuestas/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

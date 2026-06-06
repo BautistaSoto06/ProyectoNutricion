@@ -5,9 +5,9 @@ const router = Router();
 const encuestaController = new EncuestaControllerV2();
 
 // POST: Guardar encuesta desde React
-router.post('/enviar', (req, res) => encuestaController.postEncuesta(req, res));
+router.post('/submit', (req, res) => encuestaController.postEncuesta(req, res));
 
 // GET: Obtener todas las respuestas
-router.get('/estadisticas', (req, res) => encuestaController.getEncuestas(req, res));
+router.get('/data', (req, res) => encuestaController.getEncuestas(req, res));
 
 export default router;
