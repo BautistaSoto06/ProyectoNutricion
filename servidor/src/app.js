@@ -2,8 +2,8 @@ import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import encuestaRouter from './src/routes/v1/encuestaRouter.js';
-import encuestaRouterV2 from './src/routes/v2/encuestaRouter.js';
+import encuestaRouter from './routes/v1/encuestaRouter.js';
+import encuestaRouterV2 from './routes/v2/encuestaRouter.js';
 
 dotenv.config();
 
