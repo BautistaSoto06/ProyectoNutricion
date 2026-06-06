@@ -4,7 +4,7 @@
    --accent-border, --sans, --heading
 */
 
-/* ── Layout raíz ─────────────────────────────────────────────── */
+/*  Layout raíz  */
 .bs-root {
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   text-align: left;
 }
 
-/* ── Hero ────────────────────────────────────────────────────── */
+/*  Hero */
 .bs-hero {
   padding: 48px 32px 40px;
   text-align: center;
@@ -29,7 +29,7 @@
   letter-spacing: 0.5px;
 }
 
-/* ── Card de sección ─────────────────────────────────────────── */
+/*  Card de sección  */
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
@@ -65,7 +65,7 @@
   flex-shrink: 0;
 }
 
-/* ── Field ───────────────────────────────────────────────────── */
+/*Field */
 .bs-field {
   margin-bottom: 24px;
 }
@@ -93,7 +93,7 @@
   margin-top: 6px;
 }
 
-/* ── Inputs / Select / Textarea ──────────────────────────────── */
+/* Inputs / Select / Textarea*/
 .bs-input {
   width: 100%;
   padding: 10px 14px;
@@ -129,7 +129,7 @@ select.bs-input {
   cursor: pointer;
 }
 
-/* ── Chips ───────────────────────────────────────────────────── */
+/* Chips */
 .bs-chips {
   display: flex;
   flex-wrap: wrap;
@@ -162,7 +162,7 @@ select.bs-input {
   font-weight: 500;
 }
 
-/* ── Slider ──────────────────────────────────────────────────── */
+/*  Slider  */
 .bs-slider {
   width: 100%;
 }
@@ -232,7 +232,7 @@ select.bs-input {
   font-size: 14px;
 }
 
-/* ── Footer / Submit ─────────────────────────────────────────── */
+/*  Footer / Submit  */
 .bs-footer {
   padding: 32px;
   border-bottom: 1px solid var(--border);
@@ -275,7 +275,7 @@ select.bs-input {
   }
 }
 
-/* ── Pantalla de gracias ──────────────────────────────────────── */
+/*  Pantalla de gracias  */
 .bs-thanks {
   display: flex;
   flex-direction: column;

@@ -1,0 +1,297 @@
+import React, { useState } from 'react';
+import './brownie.css';
+
+const BrownieSurvey: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    gender: '',
+    faculty: '',
+    would_recommend: '',
+    why_recommend: '',
+    desc_odor: 5,
+    desc_aroma: 5,
+    desc_sweetness: null as number | null,
+    desc_texture: null as number | null,
+    intensity_banana: null as number | null,
+    intensity_chocolate: null as number | null,
+    intensity_garbanzo: null as number | null,
+    intensity_carrot: null as number | null,
+    comments: ''
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev: any) => ({ ...prev, [name]: parseInt(value) }));
+  };
+
+  const handleScaleClick = (name: string, value: number) => {
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // Basic validation
+    const requiredScales = [
+      'desc_sweetness', 'desc_texture', 'intensity_banana', 
+      'intensity_chocolate', 'intensity_garbanzo', 'intensity_carrot'
+    ];
+    
+    const missingScale = requiredScales.find(key => (formData as any)[key] === null);
+    if (missingScale) {
+      setError('Por favor completa todas las escalas de 1 a 10.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/v1/encuestas/enviar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        setError(result.message || 'Error al enviar la encuesta');
+      }
+    } catch (err) {
+      console.error('Error al enviar:', err);
+      setError('No se pudo conectar con el servidor.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="bs-root">
+        <div className="bs-thanks">
+          <div className="bs-thanks-icon">✨</div>
+          <h1>¡Muchas gracias!</h1>
+          <p>Tu opinión nos ayuda a mejorar nuestro brownie de garbanzo y zanahoria.</p>
+          <button className="bs-submit" onClick={() => window.location.reload()}>
+            Enviar otra respuesta
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const renderScale = (name: string, label: string) => (
+    <div className="bs-field">
+      <span className="bs-label">{label}</span>
+      <div className="bs-chips">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(val => (
+          <button
+            key={val}
+            type="button"
+            className={`bs-chip ${(formData as any)[name] === val ? 'bs-chip--active' : ''}`}
+            onClick={() => handleScaleClick(name, val)}
+          >
+            {val}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderSlider = (name: string, label: string) => (
+    <div className="bs-field">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span className="bs-label">{label}</span>
+        <span className="bs-slider-value">{(formData as any)[name]}</span>
+      </div>
+      <div className="bs-slider-track">
+        <input
+          type="range"
+          name={name}
+          min="1"
+          max="10"
+          value={(formData as any)[name]}
+          onChange={handleSliderChange}
+          className="bs-slider-input"
+        />
+        <div 
+          className="bs-slider-fill" 
+          style={{ width: `${(((formData as any)[name] - 1) / 9) * 100}%` }}
+        ></div>
+        <div 
+          className="bs-slider-thumb" 
+          style={{ left: `calc(${(((formData as any)[name] - 1) / 9) * 100}% - 11px)` }}
+        ></div>
+      </div>
+      <div className="bs-slider-labels">
+        <span>Muy bajo</span>
+        <span>Muy alto</span>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="bs-root">
+      <div className="bs-hero">
+        <h1>Evaluación Sensorial</h1>
+        <p className="bs-subtitle">Brownie Saludable (Garbanzo y Zanahoria)</p>
+      </div>
+
+      <form onSubmit={handleSubmit}>
+        <section className="bs-card">
+          <div className="bs-card-header">
+            <span className="bs-step">1</span>
+            <h2>Datos Generales</h2>
+          </div>
+          
+          <div className="bs-field">
+            <label className="bs-label">Nombre</label>
+            <input
+              type="text"
+              name="name"
+              className="bs-input"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div className="bs-field" style={{ flex: '1 1 120px' }}>
+              <label className="bs-label">Edad</label>
+              <input
+                type="number"
+                name="age"
+                className="bs-input"
+                value={formData.age}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="bs-field" style={{ flex: '1 1 200px' }}>
+              <label className="bs-label">Género</label>
+              <select
+                name="gender"
+                className="bs-input"
+                value={formData.gender}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Seleccionar...</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="bs-field">
+            <label className="bs-label">Carrera / Facultad</label>
+            <input
+              type="text"
+              name="faculty"
+              className="bs-input"
+              value={formData.faculty}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+        </section>
+
+        <section className="bs-card">
+          <div className="bs-card-header">
+            <span className="bs-step">2</span>
+            <h2>Atributos Descriptivos</h2>
+          </div>
+          {renderSlider('desc_odor', 'Intensidad del Olor')}
+          {renderSlider('desc_aroma', 'Intensidad del Aroma')}
+          {renderScale('desc_sweetness', 'Nivel de Dulzor')}
+          {renderScale('desc_texture', 'Aceptabilidad de la Textura')}
+        </section>
+
+        <section className="bs-card">
+          <div className="bs-card-header">
+            <span className="bs-step">3</span>
+            <h2>Intensidad de Sabores</h2>
+          </div>
+          {renderScale('intensity_banana', 'Sabor a Banana')}
+          {renderScale('intensity_chocolate', 'Sabor a Chocolate')}
+          {renderScale('intensity_garbanzo', 'Sabor a Garbanzo')}
+          {renderScale('intensity_carrot', 'Sabor a Zanahoria')}
+        </section>
+
+        <section className="bs-card">
+          <div className="bs-card-header">
+            <span className="bs-step">4</span>
+            <h2>Recomendación y Comentarios</h2>
+          </div>
+          
+          <div className="bs-field">
+            <label className="bs-label">¿Recomendarías este producto?</label>
+            <div className="bs-chips">
+              <button
+                type="button"
+                className={`bs-chip ${formData.would_recommend === 'si' ? 'bs-chip--active' : ''}`}
+                onClick={() => setFormData((prev: any) => ({ ...prev, would_recommend: 'si' }))}
+              >
+                Sí
+              </button>
+              <button
+                type="button"
+                className={`bs-chip ${formData.would_recommend === 'no' ? 'bs-chip--active' : ''}`}
+                onClick={() => setFormData((prev: any) => ({ ...prev, would_recommend: 'no' }))}
+              >
+                No
+              </button>
+            </div>
+          </div>
+
+          <div className="bs-field">
+            <label className="bs-label">¿Por qué?</label>
+            <input
+              type="text"
+              name="why_recommend"
+              className="bs-input"
+              value={formData.why_recommend}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="bs-field">
+            <label className="bs-label">¿Qué cambios le harías o comentarios adicionales?</label>
+            <textarea
+              name="comments"
+              className="bs-input bs-textarea"
+              value={formData.comments}
+              onChange={handleInputChange}
+            ></textarea>
+          </div>
+        </section>
+
+        <div className="bs-footer">
+          {error && <div className="bs-error-banner">{error}</div>}
+          <button type="submit" className="bs-submit" disabled={loading}>
+            {loading ? 'Enviando...' : 'Enviar Encuesta'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default BrownieSurvey;
