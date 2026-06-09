@@ -1,8 +1,4 @@
-/* brownie.css
-   Usa las variables de index.css: --accent, --text, --text-h,
-   --bg, --border, --code-bg, --social-bg, --shadow, --accent-bg,
-   --accent-border, --sans, --heading
-*/
+/* brownie.css — paleta chocolate/naranja de styless.css */
 
 /*  Layout raíz  */
 .bs-root {
@@ -10,23 +6,34 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
+  background: #2c1503;
+  --text: #faa060;
+  --text-h: #fff5e9;
+  --bg: #2c1503;
+  --border: rgba(123, 63, 0, 0.4);
+  --social-bg: rgba(61, 26, 5, 0.3);
+  --accent: #f07229;
+  --accent-bg: rgba(240, 114, 41, 0.1);
+  --accent-border: rgba(240, 114, 41, 0.4);
+  --shadow: rgba(0, 0, 0, 0.5) 0 8px 32px, rgba(240, 114, 41, 0.08) 0 2px 8px;
 }
 
 /*  Hero */
 .bs-hero {
-  padding: 48px 32px 40px;
+  padding: 52px 32px 44px;
   text-align: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  background: #e07022;
+  border-bottom: 1px solid rgba(123, 63, 0, 0.4);
+  background: linear-gradient(180deg, #3d1a05 0%, #2c1503 100%);
 }
 
 .bs-hero h1 {
-  color: #fff;
+  color: #faa060;
   margin: 16px 0 0;
+  text-shadow: 0 4px 30px rgba(240, 114, 41, 0.4);
 }
 
 .bs-subtitle {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(250, 160, 96, 0.7);
   font-size: 15px;
   letter-spacing: 0.5px;
 }
@@ -34,7 +41,8 @@
 /*  Card de sección  */
 .bs-card {
   padding: 32px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(123, 63, 0, 0.4);
+  background: linear-gradient(145deg, rgba(61, 26, 5, 0.9), rgba(44, 21, 3, 0.85));
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
@@ -59,9 +67,9 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: var(--accent-bg);
-  border: 1px solid var(--accent-border);
-  color: var(--accent);
+  background: rgba(240, 114, 41, 0.1);
+  border: 1px solid rgba(240, 114, 41, 0.4);
+  color: #f07229;
   font-family: var(--mono);
   font-size: 13px;
   flex-shrink: 0;
@@ -77,11 +85,11 @@
 
 .bs-label {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
-  color: var(--text);
+  color: #faa060;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1.5px;
   margin-bottom: 10px;
 }
 .bs-label--error {
@@ -95,14 +103,14 @@
   margin-top: 6px;
 }
 
-/* Inputs / Select / Textarea*/
+/* Inputs / Select / Textarea */
 .bs-input {
   width: 100%;
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--social-bg);
-  color: var(--text-h);
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(123, 63, 0, 0.4);
+  background: rgba(61, 26, 5, 0.3);
+  color: #fff5e9;
   font-family: var(--sans);
   font-size: 15px;
   outline: none;
@@ -111,13 +119,14 @@
     box-shadow 0.2s;
   box-sizing: border-box;
 
-  &:focus {
-    border-color: var(--accent-border);
-    box-shadow: 0 0 0 3px var(--accent-bg);
+  &::placeholder {
+    color: rgba(250, 160, 96, 0.35);
   }
-}
-.bs-input--short {
-  width: 120px;
+
+  &:focus {
+    border-color: #f07229;
+    box-shadow: 0 0 0 3px rgba(240, 114, 41, 0.12);
+  }
 }
 .bs-input--error {
   border-color: #e05252;
@@ -129,6 +138,10 @@
 
 select.bs-input {
   cursor: pointer;
+
+  & option {
+    background: #4a2000;
+  }
 }
 
 /* Chips */
@@ -137,30 +150,28 @@ select.bs-input {
   flex-wrap: wrap;
   gap: 8px;
 }
-.bs-chips--error .bs-chip:not(.bs-chip--active) {
-  border-color: #e0525244;
-}
 
 .bs-chip {
-  padding: 7px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(123, 63, 0, 0.4);
+  background: rgba(61, 26, 5, 0.3);
+  color: rgba(250, 160, 96, 0.7);
   font-family: var(--sans);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.22s ease;
 
   &:hover {
-    border-color: var(--accent-border);
-    color: var(--text-h);
+    border-color: #f07229;
+    background: rgba(240, 114, 41, 0.08);
+    color: #fff5e9;
   }
 }
 .bs-chip--active {
-  background: var(--accent-bg);
-  border-color: var(--accent-border);
-  color: var(--accent);
+  background: rgba(240, 114, 41, 0.12);
+  border-color: #f07229;
+  color: #fff5e9;
   font-weight: 500;
 }
 
@@ -181,17 +192,17 @@ select.bs-input {
   position: absolute;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
+  height: 6px;
+  background: rgba(123, 63, 0, 0.4);
+  border-radius: 3px;
 }
 
 .bs-slider-fill {
   position: absolute;
   left: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #d1fae5, #86efac);
-  border-radius: 2px;
+  height: 6px;
+  background: linear-gradient(90deg, #d4600a, #f07229);
+  border-radius: 3px;
   pointer-events: none;
   transition: width 0.1s;
 }
@@ -208,12 +219,12 @@ select.bs-input {
 
 .bs-slider-thumb {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #4ade80;
-  border: 3px solid var(--bg);
-  box-shadow: var(--shadow);
+  background: linear-gradient(135deg, #f07229, #ff843f);
+  border: 3px solid #2c1503;
+  box-shadow: 0 2px 8px rgba(240, 114, 41, 0.5);
   pointer-events: none;
   transition: left 0.1s;
   z-index: 1;
@@ -223,13 +234,13 @@ select.bs-input {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: var(--text);
+  color: rgba(250, 160, 96, 0.6);
   margin-top: 6px;
 }
 
 .bs-slider-value {
   font-family: var(--mono);
-  color: #22c55e;
+  color: #faa060;
   font-weight: 600;
   font-size: 14px;
 }
@@ -237,8 +248,9 @@ select.bs-input {
 /*  Footer / Submit  */
 .bs-footer {
   padding: 40px 32px;
-  background: #f4f3ec;
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #2c1503 0%, #3d1a05 100%);
+  border-top: 1px solid rgba(123, 63, 0, 0.4);
+  border-bottom: none;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -255,30 +267,31 @@ select.bs-input {
 }
 
 .bs-submit {
-  padding: 13px 48px;
-  border-radius: 8px;
+  padding: 16px 52px;
+  border-radius: 100px;
   border: none;
-  background: #e07022;
+  background: linear-gradient(135deg, #7b3f00, #d4600a, #f07229);
+  background-size: 200% 200%;
   color: #fff;
   font-family: var(--sans);
   font-size: 16px;
   font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
+  box-shadow: 0 8px 32px rgba(240, 114, 41, 0.35);
   transition:
-    background 0.2s,
-    box-shadow 0.2s,
-    transform 0.1s;
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
-    background: #c85e18;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 12px;
-    transform: translateY(-1px);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(240, 114, 41, 0.5);
   }
   &:active {
     transform: translateY(0);
   }
   &:focus-visible {
-    outline: 2px solid #e07022;
+    outline: 2px solid #faa060;
     outline-offset: 3px;
   }
   &:disabled {
@@ -298,11 +311,15 @@ select.bs-input {
   flex-grow: 1;
   padding: 48px 32px;
   text-align: center;
+  background: #2c1503;
 }
 .bs-thanks-icon {
   font-size: 64px;
 }
+.bs-thanks h1 {
+  color: #faa060;
+}
 .bs-thanks p {
-  color: var(--text);
+  color: rgba(250, 160, 96, 0.7);
   max-width: 400px;
 }
