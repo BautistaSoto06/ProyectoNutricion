@@ -27,7 +27,7 @@
   padding: 48px 32px 40px;
   text-align: center;
   border-bottom: 1px solid #5c2d10;
-  background: #d9a96e;
+  background: #f0dcc0;
 }
 
 .bs-hero h1 {
@@ -45,7 +45,7 @@
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
-  background: #d9a96e;
+  background: #f0dcc0;
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
