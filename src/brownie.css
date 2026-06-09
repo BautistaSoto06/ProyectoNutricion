@@ -10,6 +10,16 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
+  background: #1a0a02;
+  --text: #e07022;
+  --text-h: #f09040;
+  --bg: #1a0a02;
+  --border: #5c2d10;
+  --social-bg: #3d1a08;
+  --accent: #e07022;
+  --accent-bg: rgba(224, 112, 34, 0.2);
+  --accent-border: rgba(224, 112, 34, 0.6);
+  --shadow: rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.3) 0 4px 6px -2px;
 }
 
 /*  Hero */
@@ -35,6 +45,7 @@
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
+  background: #2d1407;
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
