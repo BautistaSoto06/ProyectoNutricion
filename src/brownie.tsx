@@ -9,14 +9,14 @@ const BrownieSurvey: React.FC = () => {
     faculty: '',
     would_recommend: '',
     why_recommend: '',
-    desc_odor: 5,
-    desc_aroma: 5,
-    desc_sweetness: 5,
-    desc_texture: 5,
-    intensity_banana: 5,
-    intensity_chocolate: 5,
-    intensity_garbanzo: 5,
-    intensity_carrot: 5,
+    desc_odor: 0,
+    desc_aroma: 0,
+    desc_sweetness: 0,
+    desc_texture: 0,
+    intensity_banana: 0,
+    intensity_chocolate: 0,
+    intensity_garbanzo: 0,
+    intensity_carrot: 0,
     comments: ''
   });
 
