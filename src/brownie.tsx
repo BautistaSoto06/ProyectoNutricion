@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
-import './brownie.css'; 
+import React, { useState, useEffect } from 'react';
+import './brownie.css';
 
 const BrownieSurvey: React.FC = () => {
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.background;
+    const prevBody = body.style.background;
+    html.style.background = '#2c1503';
+    body.style.background = '#2c1503';
+    return () => {
+      html.style.background = prevHtml;
+      body.style.background = prevBody;
+    };
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     age: '',
