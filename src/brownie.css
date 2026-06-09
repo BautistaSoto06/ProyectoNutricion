@@ -10,16 +10,16 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
-  background: #fdf6ed;
-  --text: #b06030;
-  --text-h: #6b3010;
-  --bg: #fdf6ed;
-  --border: #ddb888;
-  --social-bg: #fdf0e1;
-  --accent: #e07838;
-  --accent-bg: rgba(224, 120, 56, 0.12);
-  --accent-border: rgba(224, 120, 56, 0.45);
-  --shadow: rgba(160, 80, 20, 0.15) 0 10px 15px -3px, rgba(160, 80, 20, 0.08) 0 4px 6px -2px;
+  background: #f0d9b5;
+  --text: #c0662a;
+  --text-h: #7a3814;
+  --bg: #f0d9b5;
+  --border: #cfa06a;
+  --social-bg: #fff9f2;
+  --accent: #d97030;
+  --accent-bg: rgba(217, 112, 48, 0.14);
+  --accent-border: rgba(217, 112, 48, 0.45);
+  --shadow: rgba(140, 65, 15, 0.15) 0 10px 15px -3px, rgba(140, 65, 15, 0.08) 0 4px 6px -2px;
 }
 
 /*  Hero */
@@ -45,7 +45,7 @@
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
-  background: #f5e5cc;
+  background: #faf0df;
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
