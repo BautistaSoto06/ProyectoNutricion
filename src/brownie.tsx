@@ -5,13 +5,17 @@ const BrownieSurvey: React.FC = () => {
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
+    const rootEl = document.getElementById('root');
     const prevHtml = html.style.background;
     const prevBody = body.style.background;
+    const prevBorder = rootEl?.style.borderColor ?? '';
     html.style.background = '#2c1503';
     body.style.background = '#2c1503';
+    if (rootEl) rootEl.style.borderColor = 'transparent';
     return () => {
       html.style.background = prevHtml;
       body.style.background = prevBody;
+      if (rootEl) rootEl.style.borderColor = prevBorder;
     };
   }, []);
   const [formData, setFormData] = useState({
