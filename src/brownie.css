@@ -16,15 +16,17 @@
 .bs-hero {
   padding: 48px 32px 40px;
   text-align: center;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #5c2d10;
+  background: #3d1a08;
 }
 
 .bs-hero h1 {
-  /* hereda los estilos de h1 del index.css */
+  color: #fdf4ec;
+  margin: 16px 0 0;
 }
 
 .bs-subtitle {
-  color: var(--text);
+  color: rgba(253, 244, 236, 0.75);
   font-size: 15px;
   letter-spacing: 0.5px;
 }
@@ -188,7 +190,7 @@ select.bs-input {
   position: absolute;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-border), var(--accent));
+  background: linear-gradient(90deg, #a7f3d0, #4ade80);
   border-radius: 2px;
   pointer-events: none;
   transition: width 0.1s;
@@ -209,7 +211,7 @@ select.bs-input {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--accent);
+  background: #22c55e;
   border: 3px solid var(--bg);
   box-shadow: var(--shadow);
   pointer-events: none;
@@ -227,7 +229,7 @@ select.bs-input {
 
 .bs-slider-value {
   font-family: var(--mono);
-  color: var(--accent);
+  color: #16a34a;
   font-weight: 600;
   font-size: 14px;
 }

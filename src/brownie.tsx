@@ -11,12 +11,12 @@ const BrownieSurvey: React.FC = () => {
     why_recommend: '',
     desc_odor: 5,
     desc_aroma: 5,
-    desc_sweetness: null as number | null,
-    desc_texture: null as number | null,
-    intensity_banana: null as number | null,
-    intensity_chocolate: null as number | null,
-    intensity_garbanzo: null as number | null,
-    intensity_carrot: null as number | null,
+    desc_sweetness: 5,
+    desc_texture: 5,
+    intensity_banana: 5,
+    intensity_chocolate: 5,
+    intensity_garbanzo: 5,
+    intensity_carrot: 5,
     comments: ''
   });
 
@@ -34,27 +34,10 @@ const BrownieSurvey: React.FC = () => {
     setFormData((prev: any) => ({ ...prev, [name]: parseInt(value) }));
   };
 
-  const handleScaleClick = (name: string, value: number) => {
-    setFormData((prev: any) => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    // Basic validation
-    const requiredScales = [
-      'desc_sweetness', 'desc_texture', 'intensity_banana', 
-      'intensity_chocolate', 'intensity_garbanzo', 'intensity_carrot'
-    ];
-    
-    const missingScale = requiredScales.find(key => (formData as any)[key] === null);
-    if (missingScale) {
-      setError('Por favor completa todas las escalas de 1 a 10.');
-      setLoading(false);
-      return;
-    }
 
     try {
       
@@ -102,24 +85,6 @@ const BrownieSurvey: React.FC = () => {
       </div>
     );
   }
-
-  const renderScale = (name: string, label: string) => (
-    <div className="bs-field">
-      <span className="bs-label">{label}</span>
-      <div className="bs-chips">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(val => (
-          <button
-            key={val}
-            type="button"
-            className={`bs-chip ${(formData as any)[name] === val ? 'bs-chip--active' : ''}`}
-            onClick={() => handleScaleClick(name, val)}
-          >
-            {val}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
 
   const renderSlider = (name: string, label: string) => (
     <div className="bs-field">
@@ -228,8 +193,8 @@ const BrownieSurvey: React.FC = () => {
           </div>
           {renderSlider('desc_odor', 'Intensidad del Olor')}
           {renderSlider('desc_aroma', 'Intensidad del Aroma')}
-          {renderScale('desc_sweetness', 'Nivel de Dulzor')}
-          {renderScale('desc_texture', 'Aceptabilidad de la Textura')}
+          {renderSlider('desc_sweetness', 'Nivel de Dulzor')}
+          {renderSlider('desc_texture', 'Aceptabilidad de la Textura')}
         </section>
 
         <section className="bs-card">
@@ -237,10 +202,10 @@ const BrownieSurvey: React.FC = () => {
             <span className="bs-step">3</span>
             <h2>Intensidad de Sabores</h2>
           </div>
-          {renderScale('intensity_banana', 'Sabor a Banana')}
-          {renderScale('intensity_chocolate', 'Sabor a Chocolate')}
-          {renderScale('intensity_garbanzo', 'Sabor a Garbanzo')}
-          {renderScale('intensity_carrot', 'Sabor a Zanahoria')}
+          {renderSlider('intensity_banana', 'Sabor a Banana')}
+          {renderSlider('intensity_chocolate', 'Sabor a Chocolate')}
+          {renderSlider('intensity_garbanzo', 'Sabor a Garbanzo')}
+          {renderSlider('intensity_carrot', 'Sabor a Zanahoria')}
         </section>
 
         <section className="bs-card">
