@@ -10,33 +10,23 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
-  background: #d9a96e;
-  --text: #c84e18;
-  --text-h: #5a2208;
-  --bg: #d9a96e;
-  --border: #b87d42;
-  --social-bg: #fff6ee;
-  --accent: #d95c10;
-  --accent-bg: rgba(217, 92, 16, 0.15);
-  --accent-border: rgba(217, 92, 16, 0.5);
-  --shadow: rgba(120, 55, 10, 0.2) 0 10px 15px -3px, rgba(120, 55, 10, 0.1) 0 4px 6px -2px;
 }
 
 /*  Hero */
 .bs-hero {
   padding: 48px 32px 40px;
   text-align: center;
-  border-bottom: 1px solid #5c2d10;
-  background: #f0dcc0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  background: #e07022;
 }
 
 .bs-hero h1 {
-  color: #d95c10;
+  color: #fff;
   margin: 16px 0 0;
 }
 
 .bs-subtitle {
-  color: #d95c10;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 15px;
   letter-spacing: 0.5px;
 }
@@ -45,7 +35,6 @@
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
-  background: #f0dcc0;
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
@@ -222,7 +211,7 @@ select.bs-input {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #22c55e;
+  background: #4ade80;
   border: 3px solid var(--bg);
   box-shadow: var(--shadow);
   pointer-events: none;
@@ -240,7 +229,7 @@ select.bs-input {
 
 .bs-slider-value {
   font-family: var(--mono);
-  color: #16a34a;
+  color: #22c55e;
   font-weight: 600;
   font-size: 14px;
 }
@@ -248,8 +237,8 @@ select.bs-input {
 /*  Footer / Submit  */
 .bs-footer {
   padding: 40px 32px;
-  background: #3d1a08;
-  border-bottom: none;
+  background: #f4f3ec;
+  border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,8 +258,8 @@ select.bs-input {
   padding: 13px 48px;
   border-radius: 8px;
   border: none;
-  background: #d95c10;
-  color: #fff8f2;
+  background: #e07022;
+  color: #fff;
   font-family: var(--sans);
   font-size: 16px;
   font-weight: 600;
@@ -281,15 +270,15 @@ select.bs-input {
     transform 0.1s;
 
   &:hover {
-    background: #c04e0a;
-    box-shadow: rgba(0, 0, 0, 0.3) 0 4px 12px;
+    background: #c85e18;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 4px 12px;
     transform: translateY(-1px);
   }
   &:active {
     transform: translateY(0);
   }
   &:focus-visible {
-    outline: 2px solid #f09040;
+    outline: 2px solid #e07022;
     outline-offset: 3px;
   }
   &:disabled {
