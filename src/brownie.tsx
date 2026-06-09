@@ -122,6 +122,7 @@ const BrownieSurvey: React.FC = () => {
     <div className="bs-root">
       <div className="bs-hero">
         <h1>Evaluación Sensorial</h1>
+        <br />
         <p className="bs-subtitle">Brownie Saludable (Garbanzo y Zanahoria)</p>
       </div>
 
