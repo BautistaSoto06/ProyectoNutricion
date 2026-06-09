@@ -34,7 +34,8 @@ const BrownieSurvey: React.FC = () => {
     intensity_chocolate: 1,
     intensity_garbanzo: 1,
     intensity_carrot: 1,
-    comments: ''
+    comments: '',
+    price_range: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -161,7 +162,7 @@ const BrownieSurvey: React.FC = () => {
               required
             />
           </div>
-
+          
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <div className="bs-field" style={{ flex: '1 1 120px' }}>
               <label className="bs-label">Edad</label>
@@ -255,6 +256,22 @@ const BrownieSurvey: React.FC = () => {
               >
                 No
               </button>
+            </div>
+          </div>
+
+          <div className="bs-field">
+            <label className="bs-label">¿Cuánto pagarías por este producto?</label>
+            <div className="bs-chips">
+              {['Menos de $1.000', '$1.000 – $1.500', '$1.500 – $2.000', 'Más de $2.000'].map((range) => (
+                <button
+                  key={range}
+                  type="button"
+                  className={`bs-chip ${formData.price_range === range ? 'bs-chip--active' : ''}`}
+                  onClick={() => setFormData((prev: any) => ({ ...prev, price_range: range }))}
+                >
+                  {range}
+                </button>
+              ))}
             </div>
           </div>
 
