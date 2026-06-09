@@ -175,14 +175,20 @@ const BrownieSurvey: React.FC = () => {
 
           <div className="bs-field">
             <label className="bs-label">Carrera / Facultad</label>
-            <input
-              type="text"
-              name="faculty"
-              className="bs-input"
-              value={formData.faculty}
-              onChange={handleInputChange}
-              required
-            />
+            <select
+                name="faculty"
+                className="bs-input"
+                value={formData.faculty}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="">Seleccionar...</option>
+                <option value="ingenieria">Facultad de Ciencias Sociales y Humanidades</option>
+                <option value="ciencias">Facultad de Ciencias de la Salud y Bien Estar</option>
+                <option value="humanidades">Facultad de Ingenieria, Tecnologia y Arquitectura</option>
+                <option value="salud">Facultad de Ciencias Juridicas y Politicas</option>
+                <option value="artes">Facultad de Ciencias Economicas Y Ambientales</option>
+              </select>
           </div>
         </section>
 
