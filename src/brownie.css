@@ -201,7 +201,7 @@ select.bs-input {
   position: absolute;
   left: 0;
   height: 6px;
-  background: linear-gradient(90deg, #063b2a, #085e40);
+  background: linear-gradient(90deg, #d4600a, #f07229);
   border-radius: 3px;
   pointer-events: none;
   transition: width 0.1s;
@@ -222,7 +222,7 @@ select.bs-input {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #085e40;
+  background: linear-gradient(135deg, #f07229, #ff843f);
   border: 3px solid #2c1503;
   box-shadow: 0 2px 8px rgba(240, 114, 41, 0.5);
   pointer-events: none;
@@ -234,13 +234,13 @@ select.bs-input {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: #f07229;
+  color: rgba(250, 160, 96, 0.6);
   margin-top: 6px;
 }
 
 .bs-slider-value {
   font-family: var(--mono);
-  color: #f07229;
+  color: #faa060;
   font-weight: 600;
   font-size: 14px;
 }
