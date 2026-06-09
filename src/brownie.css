@@ -7,6 +7,7 @@
   width: 100%;
   text-align: left;
   background: #2c1503;
+  font-family: 'DM Sans', sans-serif;
   --text: #faa060;
   --text-h: #fff5e9;
   --bg: #2c1503;
@@ -27,6 +28,7 @@
 }
 
 .bs-hero h1 {
+  font-family: 'Playfair Display', serif;
   color: #faa060;
   margin: 16px 0 0;
   text-shadow: 0 4px 30px rgba(240, 114, 41, 0.4);
@@ -58,6 +60,7 @@
 
 .bs-card-header h2 {
   margin: 0;
+  font-family: 'Playfair Display', serif;
 }
 
 .bs-step {
@@ -270,6 +273,7 @@ select.bs-input {
   padding: 16px 52px;
   border-radius: 100px;
   border: none;
+  font-family: 'Playfair Display', serif;
   background: linear-gradient(135deg, #7b3f00, #d4600a, #f07229);
   background-size: 200% 200%;
   color: #fff;
