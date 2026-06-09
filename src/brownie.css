@@ -10,16 +10,16 @@
   flex-direction: column;
   width: 100%;
   text-align: left;
-  background: #f0d9b5;
-  --text: #c0662a;
-  --text-h: #7a3814;
-  --bg: #f0d9b5;
-  --border: #cfa06a;
-  --social-bg: #fff9f2;
-  --accent: #d97030;
-  --accent-bg: rgba(217, 112, 48, 0.14);
-  --accent-border: rgba(217, 112, 48, 0.45);
-  --shadow: rgba(140, 65, 15, 0.15) 0 10px 15px -3px, rgba(140, 65, 15, 0.08) 0 4px 6px -2px;
+  background: #d9a96e;
+  --text: #c84e18;
+  --text-h: #5a2208;
+  --bg: #d9a96e;
+  --border: #b87d42;
+  --social-bg: #fff6ee;
+  --accent: #d95c10;
+  --accent-bg: rgba(217, 92, 16, 0.15);
+  --accent-border: rgba(217, 92, 16, 0.5);
+  --shadow: rgba(120, 55, 10, 0.2) 0 10px 15px -3px, rgba(120, 55, 10, 0.1) 0 4px 6px -2px;
 }
 
 /*  Hero */
@@ -45,7 +45,7 @@
 .bs-card {
   padding: 32px;
   border-bottom: 1px solid var(--border);
-  background: #faf0df;
+  background: #f0dcc0;
 
   @media (max-width: 1024px) {
     padding: 24px 20px;
@@ -201,7 +201,7 @@ select.bs-input {
   position: absolute;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, #a7f3d0, #4ade80);
+  background: linear-gradient(90deg, #d1fae5, #86efac);
   border-radius: 2px;
   pointer-events: none;
   transition: width 0.1s;
@@ -222,7 +222,7 @@ select.bs-input {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #22c55e;
+  background: #4ade80;
   border: 3px solid var(--bg);
   box-shadow: var(--shadow);
   pointer-events: none;
@@ -240,7 +240,7 @@ select.bs-input {
 
 .bs-slider-value {
   font-family: var(--mono);
-  color: #16a34a;
+  color: #22c55e;
   font-weight: 600;
   font-size: 14px;
 }
