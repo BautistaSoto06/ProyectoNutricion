@@ -20,8 +20,6 @@ const BrownieSurvey: React.FC = () => {
     };
   }, []);
   const [formData, setFormData] = useState({
-    name: '',
-    age: '',
     gender: '',
     faculty: '',
     would_recommend: '',
@@ -152,44 +150,19 @@ const BrownieSurvey: React.FC = () => {
           </div>
           
           <div className="bs-field">
-            <label className="bs-label">Nombre</label>
-            <input
-              type="text"
-              name="name"
+            <label className="bs-label">Género</label>
+            <select
+              name="gender"
               className="bs-input"
-              value={formData.name}
+              value={formData.gender}
               onChange={handleInputChange}
               required
-            />
-          </div>
-          
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <div className="bs-field" style={{ flex: '1 1 120px' }}>
-              <label className="bs-label">Edad</label>
-              <input
-                type="number"
-                name="age"
-                className="bs-input"
-                value={formData.age}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="bs-field" style={{ flex: '1 1 200px' }}>
-              <label className="bs-label">Género</label>
-              <select
-                name="gender"
-                className="bs-input"
-                value={formData.gender}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccionar...</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-                <option value="otro">Otro</option>
-              </select>
-            </div>
+            >
+              <option value="">Seleccionar...</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
           </div>
 
           <div className="bs-field">
