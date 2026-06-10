@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import encuestaRouter from './src/routes/v1/encuestaRouter.js';
 import encuestaRouterV2 from './src/routes/v2/encuestaRouter.js';
+import encuestaRouterV3 from './src/routes/v3/encuestaRouter.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use('/api/v1/encuestas', encuestaRouter);
 app.use('/api/v2/encuestas', encuestaRouterV2);
+app.use('/api/v3/encuestas', encuestaRouterV3);
 
 const PORT = process.env.PORT || 3000;
 
