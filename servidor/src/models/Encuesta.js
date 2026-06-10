@@ -1,8 +1,6 @@
 export class Encuesta {
     constructor({
         id = null,
-        name = null,
-        age = null,
         gender,
         faculty,
         would_recommend,
@@ -20,8 +18,6 @@ export class Encuesta {
         created_at = null
     }) {
         this.id = id;
-        this.name = name;
-        this.age = age ? Number(age) : null;
         this.gender = gender;
         this.faculty = faculty;
         this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
@@ -49,8 +45,6 @@ export class Encuesta {
 
     toDatabaseJson() {
         return {
-            name: this.name,
-            age: this.age,
             gender: this.gender,
             faculty: this.faculty,
             would_recommend: this.wouldRecommend,
