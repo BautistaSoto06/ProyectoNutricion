@@ -1,0 +1,107 @@
+/* ─── Layout ─────────────────────────────────────────── */
+.adm-root {
+  min-height: 100vh;
+  background: #160b04;
+  color: #f5e6d0;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0 0 64px;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.adm-header {
+  background: linear-gradient(135deg, #2c1503 0%, #3d1f06 100%);
+  border-bottom: 2px solid #5a3010;
+  padding: 40px 48px 32px;
+  text-align: center;
+}
+
+.adm-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #f5e6d0;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.adm-subtitle {
+  color: #c9a86c;
+  font-size: 1rem;
+  margin: 0 0 20px;
+  opacity: 0.9;
+}
+
+.adm-total-badge {
+  display: inline-block;
+  background: #c9a86c;
+  color: #1a0a00;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 6px 20px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Grid ───────────────────────────────────────────── */
+.adm-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 1280px;
+  margin: 40px auto 0;
+  padding: 0 32px;
+}
+
+.adm-card {
+  background: #221208;
+  border: 1px solid #4a2f1a;
+  border-radius: 16px;
+  padding: 28px 24px 20px;
+}
+
+.adm-card--wide {
+  grid-column: 1 / -1;
+}
+
+.adm-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: #f5e6d0;
+  margin: 0 0 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #3a2010;
+}
+
+/* ─── States ─────────────────────────────────────────── */
+.adm-loading,
+.adm-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: #c9a86c;
+  background: #160b04;
+}
+
+.adm-error {
+  color: #e07070;
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .adm-header {
+    padding: 28px 24px 24px;
+  }
+  .adm-title {
+    font-size: 1.6rem;
+  }
+  .adm-grid {
+    grid-template-columns: 1fr;
+    padding: 0 16px;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .adm-card--wide {
+    grid-column: 1;
+  }
+}
