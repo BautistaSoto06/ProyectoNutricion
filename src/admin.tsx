@@ -44,7 +44,7 @@ const toIntervalIndex = (v: number) => {
   if (v <= 8) return 3;
   return 4;
 };
-
+// Convierte un array de respuestas a un conteo por intervalos para un campo específico
 const countIntervals = (responses: SurveyResponse[], field: keyof SurveyResponse) =>
   INTERVAL_LABELS.map((name, i) => ({
     name,
@@ -54,7 +54,7 @@ const countIntervals = (responses: SurveyResponse[], field: keyof SurveyResponse
 const avg = (values: number[]) =>
   values.length ? parseFloat((values.reduce((a, b) => a + b, 0) / values.length).toFixed(2)) : 0;
 
-/* ─── Gender bar chart ─────────────────────────────── */
+/* barra de genero */
 const GenderChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
     { name: 'Masculino', Cantidad: responses.filter(r => r.gender === 'masculino').length },
@@ -77,7 +77,7 @@ const GenderChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) =
   );
 };
 
-/* ─── Recommendation pie chart ─────────────────────── */
+/* Torta de recomendación */
 const RADIAN = Math.PI / 180;
 const PIE_COLORS = ['#6dbb8a', '#d97070'];
 
@@ -93,6 +93,7 @@ const renderPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }:
   );
 };
 
+// Recomendación 
 const RecommendPieChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const si = responses.filter(r => r.wouldRecommend === true).length;
   const no = responses.filter(r => r.wouldRecommend === false).length;
@@ -126,7 +127,7 @@ const RecommendPieChart: React.FC<{ responses: SurveyResponse[] }> = ({ response
   );
 };
 
-/* ─── Price range bar chart ────────────────────────── */
+/*Barras del precio*/
 const PRICE_LABELS: Record<string, string> = {
   'Menos de $1.000':  '< $1.000',
   '$1.000 – $1.500':  '$1k – $1.5k',
@@ -156,7 +157,7 @@ const PriceRangeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses 
   );
 };
 
-/* ─── Flavor radar chart ───────────────────────────── */
+/* Intensidad de sabores */
 const FlavorRadar: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
     { flavor: 'Banana',    valor: avg(responses.map(r => r.intensityBanana)) },
@@ -171,7 +172,6 @@ const FlavorRadar: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) =
         <RadarChart data={data} margin={{ top: 16, right: 40, bottom: 16, left: 40 }}>
           <PolarGrid stroke="#4a2f1a" />
           <PolarAngleAxis dataKey="flavor" tick={{ fill: '#f5e6d0', fontSize: 14, fontWeight: 600 }} />
-          <PolarRadiusAxis angle={30} domain={[0, 10]} tickCount={6} tick={{ fill: '#c9a86c', fontSize: 11 }} />
           <Radar name="Intensidad promedio" dataKey="valor" stroke="#e8975a" fill="#e8975a" fillOpacity={0.35} strokeWidth={2} />
           <Tooltip contentStyle={TOOLTIP_STYLE} />
           <Legend wrapperStyle={{ color: '#c9a86c', fontSize: 13, paddingTop: 8 }} />
@@ -181,7 +181,7 @@ const FlavorRadar: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) =
   );
 };
 
-/* ─── Interval bar chart (generic) ────────────────── */
+/* Barras de atributos descriptivos (dulzor, textura, aroma, olor) */
 const IntervalBarChart: React.FC<{
   title: string;
   data: { name: string; Cantidad: number }[];
@@ -201,7 +201,7 @@ const IntervalBarChart: React.FC<{
   </div>
 );
 
-/* ─── Text responses block ─────────────────────────── */
+/* Bloque de respuestas de texto */
 const TextResponsesBlock: React.FC<{ title: string; items: string[] }> = ({ title, items }) => {
   const filled = items.filter(t => t && t.trim().length > 0);
   return (
@@ -220,7 +220,7 @@ const TextResponsesBlock: React.FC<{ title: string; items: string[] }> = ({ titl
   );
 };
 
-/* ─── Dashboard (authenticated view) ──────────────── */
+/* Dashboard de administración */
 const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, onLogout }) => {
   const [responses, setResponses] = useState<SurveyResponse[]>([]);
   const [loading, setLoading]     = useState(true);
@@ -291,7 +291,7 @@ const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, o
   );
 };
 
-/* ─── Main admin entry (auth gate) ────────────────── */
+/* Panel de administración */
 const AdminDashboard: React.FC = () => {
   const [token, setToken] = useState<string | null>(() => sessionStorage.getItem(SESSION_KEY));
 
