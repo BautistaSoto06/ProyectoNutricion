@@ -41,7 +41,6 @@ export class EncuestaControllerV2 {
             }
 
             // Mapeo manual si los campos de React difieren ligeramente de lo que espera el Modelo
-            // En este caso, brownie.tsx ya envía los campos correctos.
             const nuevaEncuesta = new Encuesta(datos);
 
             if (!nuevaEncuesta.isValid()) {

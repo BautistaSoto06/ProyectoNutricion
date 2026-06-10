@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
 import { createClient } from '@supabase/supabase-js';
 
 const app = express();
@@ -13,14 +14,24 @@ const supabase = createClient(
 
 class Encuesta {
     constructor({
-        id = null, name = null, age = null, gender, faculty,
-        would_recommend, why_recommend, desc_odor, desc_aroma,
-        desc_sweetness, desc_texture, intensity_banana, intensity_chocolate,
-        intensity_garbanzo, intensity_carrot, comments = null, created_at = null
+        id = null,
+        gender,
+        faculty,
+        would_recommend,
+        why_recommend,
+        desc_odor,
+        desc_aroma,
+        desc_sweetness,
+        desc_texture,
+        intensity_banana,
+        intensity_chocolate,
+        intensity_garbanzo,
+        intensity_carrot,
+        comments = null,
+        price_range = null,
+        created_at = null
     }) {
         this.id = id;
-        this.name = name;
-        this.age = age ? Number(age) : null;
         this.gender = gender;
         this.faculty = faculty;
         this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
@@ -34,6 +45,7 @@ class Encuesta {
         this.intensityGarbanzo = Number(intensity_garbanzo);
         this.intensityCarrot = Number(intensity_carrot);
         this.comments = comments;
+        this.priceRange = price_range;
         this.createdAt = created_at;
     }
 
@@ -47,16 +59,83 @@ class Encuesta {
 
     toDatabaseJson() {
         return {
-            name: this.name, age: this.age, gender: this.gender, faculty: this.faculty,
-            would_recommend: this.wouldRecommend, why_recommend: this.whyRecommend,
-            comments: this.comments, desc_odor: this.descOdor, desc_aroma: this.descAroma,
-            desc_sweetness: this.descSweetness, desc_texture: this.descTexture,
-            intensity_banana: this.intensityBanana, intensity_chocolate: this.intensityChocolate,
-            intensity_garbanzo: this.intensityGarbanzo, intensity_carrot: this.intensityCarrot
+            gender: this.gender,
+            faculty: this.faculty,
+            would_recommend: this.wouldRecommend,
+            why_recommend: this.whyRecommend,
+            comments: this.comments,
+            price_range: this.priceRange,
+            desc_odor: this.descOdor,
+            desc_aroma: this.descAroma,
+            desc_sweetness: this.descSweetness,
+            desc_texture: this.descTexture,
+            intensity_banana: this.intensityBanana,
+            intensity_chocolate: this.intensityChocolate,
+            intensity_garbanzo: this.intensityGarbanzo,
+            intensity_carrot: this.intensityCarrot
         };
     }
 }
 
+const requireAuth = (req, res, next) => {
+    const header = req.headers.authorization;
+    if (!header?.startsWith('Bearer ')) {
+        return res.status(401).json({ success: false, message: 'No autorizado.' });
+    }
+    try {
+        req.admin = jwt.verify(header.slice(7), process.env.JWT_SECRET);
+        next();
+    } catch {
+        return res.status(401).json({ success: false, message: 'Token inválido o expirado.' });
+    }
+};
+
+// v3 — Admin login
+app.post('/api/v3/admin/login', (req, res) => {
+    const { username, password } = req.body ?? {};
+    if (!username || !password) {
+        return res.status(400).json({ success: false, message: 'Usuario y contraseña requeridos.' });
+    }
+    if (username !== process.env.ADMIN_USER || password !== process.env.ADMIN_PASSWORD) {
+        return res.status(401).json({ success: false, message: 'Credenciales incorrectas.' });
+    }
+    const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '8h' });
+    return res.status(200).json({ success: true, token });
+});
+
+// v3 — Encuestas (protected)
+app.get('/api/v3/encuestas/data', requireAuth, async (req, res) => {
+    try {
+        const { data, error } = await supabase.from('survey_responses').select('*');
+        if (error) throw error;
+        const encuestas = data.map(row => new Encuesta(row));
+        res.status(200).json({ success: true, count: encuestas.length, data: encuestas });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error al obtener encuestas', error: error.message });
+    }
+});
+
+// v3 — Encuestas submit
+app.post('/api/v3/encuestas/submit', async (req, res) => {
+    try {
+        const body = req.body;
+        if (!body || Object.keys(body).length === 0) {
+            return res.status(400).json({ success: false, message: 'No se recibieron datos en el cuerpo de la solicitud.' });
+        }
+        const encuesta = new Encuesta(body);
+        if (!encuesta.isValid()) {
+            return res.status(422).json({ success: false, message: 'Los valores numéricos deben estar entre 1 y 10.' });
+        }
+        const { data, error } = await supabase.from('survey_responses').insert([encuesta.toDatabaseJson()]).select();
+        if (error) throw new Error(`Error de Supabase: ${error.message}`);
+        const guardada = new Encuesta(data[0]);
+        res.status(201).json({ success: true, message: 'Encuesta registrada correctamente.', data: guardada });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error interno', error: error.message });
+    }
+});
+
+// v2 — legacy routes
 app.get('/api/v2/encuestas/data', async (req, res) => {
     try {
         const { data, error } = await supabase.from('survey_responses').select('*');
