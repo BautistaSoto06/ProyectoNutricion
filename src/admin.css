@@ -87,6 +87,25 @@
   color: #e07070;
 }
 
+/* ─── Logout button ──────────────────────────────────── */
+.adm-logout-btn {
+  background: transparent;
+  border: 1px solid #c9a86c;
+  color: #c9a86c;
+  border-radius: 999px;
+  padding: 5px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.adm-logout-btn:hover {
+  background: #c9a86c;
+  color: #1a0a00;
+}
+
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
   .adm-header {

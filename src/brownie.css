@@ -327,3 +327,17 @@ select.bs-input {
   color: rgba(250, 160, 96, 0.7);
   max-width: 400px;
 }
+
+/* ─── Admin link ──────────────────────────────────── */
+.bs-admin-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: rgba(250, 160, 96, 0.45);
+  font-size: 0.78rem;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.bs-admin-link:hover {
+  color: rgba(250, 160, 96, 0.85);
+}

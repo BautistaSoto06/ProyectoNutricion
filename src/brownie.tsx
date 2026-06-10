@@ -302,6 +302,7 @@ const BrownieSurvey: React.FC = () => {
           <button type="submit" className="bs-submit" disabled={loading}>
             {loading ? 'Enviando...' : 'Enviar Encuesta'}
           </button>
+          <a href="/admin" className="bs-admin-link">Administración</a>
         </div>
       </form>
     </div>
