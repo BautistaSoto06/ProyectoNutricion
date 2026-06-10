@@ -4,7 +4,10 @@ import {
   ResponsiveContainer, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis, Legend,
 } from 'recharts';
+import AdminLogin from './login';
 import './admin.css';
+
+const SESSION_KEY = 'adm_token';
 
 interface SurveyResponse {
   id: number;
@@ -53,8 +56,8 @@ const avg = (values: number[]) =>
 const GenderChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
     { name: 'Masculino', Cantidad: responses.filter(r => r.gender === 'masculino').length },
-    { name: 'Femenino', Cantidad: responses.filter(r => r.gender === 'femenino').length },
-    { name: 'Otro', Cantidad: responses.filter(r => r.gender === 'otro').length },
+    { name: 'Femenino',  Cantidad: responses.filter(r => r.gender === 'femenino').length },
+    { name: 'Otro',      Cantidad: responses.filter(r => r.gender === 'otro').length },
   ];
   return (
     <div className="adm-card">
@@ -77,7 +80,7 @@ const AgeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
     { name: '18-25', Cantidad: responses.filter(r => r.age >= 18 && r.age <= 25).length },
     { name: '26-40', Cantidad: responses.filter(r => r.age >= 26 && r.age <= 40).length },
-    { name: '+40', Cantidad: responses.filter(r => r.age > 40).length },
+    { name: '+40',   Cantidad: responses.filter(r => r.age > 40).length },
   ];
   return (
     <div className="adm-card">
@@ -98,9 +101,9 @@ const AgeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
 /* ─── Flavor radar chart ───────────────────────────── */
 const FlavorRadar: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
-    { flavor: 'Banana', valor: avg(responses.map(r => r.intensityBanana)) },
+    { flavor: 'Banana',    valor: avg(responses.map(r => r.intensityBanana)) },
     { flavor: 'Chocolate', valor: avg(responses.map(r => r.intensityChocolate)) },
-    { flavor: 'Garbanzo', valor: avg(responses.map(r => r.intensityGarbanzo)) },
+    { flavor: 'Garbanzo',  valor: avg(responses.map(r => r.intensityGarbanzo)) },
     { flavor: 'Zanahoria', valor: avg(responses.map(r => r.intensityCarrot)) },
   ];
   return (
@@ -140,57 +143,75 @@ const IntervalBarChart: React.FC<{
   </div>
 );
 
-/* ─── Main admin dashboard ─────────────────────────── */
-const AdminDashboard: React.FC = () => {
+/* ─── Dashboard (authenticated view) ──────────────── */
+const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, onLogout }) => {
   const [responses, setResponses] = useState<SurveyResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/v3/encuestas/data')
-      .then(res => res.json())
+    fetch('/api/v3/encuestas/data', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => {
+        if (res.status === 401) throw new Error('Sesión expirada. Volvé a iniciar sesión.');
+        return res.json();
+      })
       .then(json => { setResponses(json.data ?? []); setLoading(false); })
       .catch(err => { setError(err.message); setLoading(false); });
-  }, []);
+  }, [token]);
 
   if (loading) return <div className="adm-loading">Cargando datos...</div>;
-  if (error)   return <div className="adm-error">Error al cargar datos: {error}</div>;
+  if (error)   return (
+    <div className="adm-error">
+      {error}
+      <br />
+      <button onClick={onLogout} style={{ marginTop: 16, padding: '8px 20px', cursor: 'pointer' }}>
+        Volver al login
+      </button>
+    </div>
+  );
 
   return (
     <div className="adm-root">
       <header className="adm-header">
         <h1 className="adm-title">Panel de Administración</h1>
         <p className="adm-subtitle">Evaluación Sensorial — Budín de Garbanzo y Zanahoria</p>
-        <div className="adm-total-badge">{responses.length} respuestas totales</div>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="adm-total-badge">{responses.length} respuestas totales</div>
+          <button className="adm-logout-btn" onClick={onLogout}>Cerrar sesión</button>
+        </div>
       </header>
 
       <main className="adm-grid">
         <GenderChart responses={responses} />
         <AgeChart responses={responses} />
         <FlavorRadar responses={responses} />
-        <IntervalBarChart
-          title="Nivel de Dulzor"
-          data={countIntervals(responses, 'descSweetness')}
-          color="#d4a843"
-        />
-        <IntervalBarChart
-          title="Aceptabilidad de la Textura"
-          data={countIntervals(responses, 'descTexture')}
-          color="#b87d3a"
-        />
-        <IntervalBarChart
-          title="Intensidad del Aroma"
-          data={countIntervals(responses, 'descAroma')}
-          color="#9b6d3f"
-        />
-        <IntervalBarChart
-          title="Intensidad del Olor"
-          data={countIntervals(responses, 'descOdor')}
-          color="#7a5230"
-        />
+        <IntervalBarChart title="Nivel de Dulzor"              data={countIntervals(responses, 'descSweetness')} color="#d4a843" />
+        <IntervalBarChart title="Aceptabilidad de la Textura"  data={countIntervals(responses, 'descTexture')}   color="#b87d3a" />
+        <IntervalBarChart title="Intensidad del Aroma"         data={countIntervals(responses, 'descAroma')}     color="#9b6d3f" />
+        <IntervalBarChart title="Intensidad del Olor"          data={countIntervals(responses, 'descOdor')}      color="#7a5230" />
       </main>
     </div>
   );
+};
+
+/* ─── Main admin entry (auth gate) ────────────────── */
+const AdminDashboard: React.FC = () => {
+  const [token, setToken] = useState<string | null>(() => sessionStorage.getItem(SESSION_KEY));
+
+  const handleLoginSuccess = (t: string) => {
+    sessionStorage.setItem(SESSION_KEY, t);
+    setToken(t);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    setToken(null);
+  };
+
+  if (!token) return <AdminLogin onSuccess={handleLoginSuccess} />;
+  return <Dashboard token={token} onLogout={handleLogout} />;
 };
 
 export default AdminDashboard;
