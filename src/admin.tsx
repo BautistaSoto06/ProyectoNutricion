@@ -147,7 +147,7 @@ const AdminDashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/api/v2/encuestas/data')
+    fetch('/api/v3/encuestas/data')
       .then(res => res.json())
       .then(json => { setResponses(json.data ?? []); setLoading(false); })
       .catch(err => { setError(err.message); setLoading(false); });

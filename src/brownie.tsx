@@ -59,7 +59,7 @@ const BrownieSurvey: React.FC = () => {
 
     try {
       
-        const response = await fetch(`/api/v2/encuestas/submit`, {
+        const response = await fetch(`/api/v3/encuestas/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
