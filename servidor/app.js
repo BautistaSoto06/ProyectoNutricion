@@ -1,4 +1,5 @@
-import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -7,7 +8,8 @@ import encuestaRouterV2 from './src/routes/v2/encuestaRouter.js';
 import encuestaRouterV3 from './src/routes/v3/encuestaRouter.js';
 import adminRouter    from './src/routes/v3/adminRouter.js';
 
-dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: join(__dirname, '.env') });
 
 const app = express();
 
