@@ -12,6 +12,7 @@ const SESSION_KEY = 'adm_token';
 
 interface SurveyResponse {
   id: number;
+  age: number | null;
   gender: string;
   faculty: string;
   wouldRecommend: boolean;

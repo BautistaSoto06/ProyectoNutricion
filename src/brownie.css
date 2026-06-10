@@ -21,6 +21,7 @@
 
 /*  Hero */
 .bs-hero {
+  position: relative;
   padding: 52px 32px 44px;
   text-align: center;
   border-bottom: 1px solid rgba(123, 63, 0, 0.4);
@@ -330,8 +331,9 @@ select.bs-input {
 
 /* ─── Admin link ──────────────────────────────────── */
 .bs-admin-link {
-  display: inline-block;
-  margin-top: 12px;
+  position: absolute;
+  top: 14px;
+  right: 20px;
   color: rgba(250, 160, 96, 0.45);
   font-size: 0.78rem;
   text-decoration: none;

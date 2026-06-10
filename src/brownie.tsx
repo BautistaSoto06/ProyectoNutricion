@@ -20,6 +20,7 @@ const BrownieSurvey: React.FC = () => {
     };
   }, []);
   const [formData, setFormData] = useState({
+    age: '',
     gender: '',
     faculty: '',
     would_recommend: '',
@@ -81,7 +82,10 @@ const BrownieSurvey: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error al enviar:', err);
-      setError(err.message || 'No se pudo conectar con el servidor.');
+      const isNetworkError = err instanceof TypeError && /fetch|network|internet/i.test(err.message);
+      setError(isNetworkError
+        ? 'Sin conexión a Internet. Verificá tu red e intentá nuevamente.'
+        : err.message || 'No se pudo conectar con el servidor.');
     } finally {
       setLoading(false);
     }
@@ -137,6 +141,7 @@ const BrownieSurvey: React.FC = () => {
   return (
     <div className="bs-root">
       <div className="bs-hero">
+        <a href="/admin" className="bs-admin-link">Administración</a>
         <h1>Evaluación Sensorial</h1>
         <br />
         <p className="bs-subtitle">Sin Tacc ● Natural ● Delicioso</p>
@@ -150,19 +155,18 @@ const BrownieSurvey: React.FC = () => {
           </div>
           
           <div className="bs-field">
-            <label className="bs-label">Género</label>
-            <select
-              name="gender"
+            <label className="bs-label">Edad</label>
+            <input
+              type="number"
+              name="age"
               className="bs-input"
-              value={formData.gender}
+              placeholder="Ej: 22"
+              min="15"
+              max="99"
+              value={formData.age}
               onChange={handleInputChange}
               required
-            >
-              <option value="">Seleccionar...</option>
-              <option value="masculino">Masculino</option>
-              <option value="femenino">Femenino</option>
-              <option value="otro">Otro</option>
-            </select>
+            />
           </div>
 
           <div className="bs-field">
@@ -181,6 +185,22 @@ const BrownieSurvey: React.FC = () => {
                 <option value="salud">Facultad de Ciencias Juridicas y Politicas</option>
                 <option value="artes">Facultad de Ciencias Economicas Y Ambientales</option>
               </select>
+          </div>
+
+          <div className="bs-field">
+            <label className="bs-label">Género</label>
+            <select
+              name="gender"
+              className="bs-input"
+              value={formData.gender}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Seleccionar...</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
           </div>
         </section>
 
@@ -275,7 +295,6 @@ const BrownieSurvey: React.FC = () => {
           <button type="submit" className="bs-submit" disabled={loading}>
             {loading ? 'Enviando...' : 'Enviar Encuesta'}
           </button>
-          <a href="/admin" className="bs-admin-link">Administración</a>
         </div>
       </form>
     </div>
