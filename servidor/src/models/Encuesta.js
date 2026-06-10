@@ -16,6 +16,7 @@ export class Encuesta {
         intensity_garbanzo,
         intensity_carrot,
         comments = null,
+        price_range = null,
         created_at = null
     }) {
         this.id = id;
@@ -25,7 +26,6 @@ export class Encuesta {
         this.faculty = faculty;
         this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
         this.whyRecommend = why_recommend;
-        
         this.descOdor = Number(desc_odor);
         this.descAroma = Number(desc_aroma);
         this.descSweetness = Number(desc_sweetness);
@@ -35,6 +35,7 @@ export class Encuesta {
         this.intensityGarbanzo = Number(intensity_garbanzo);
         this.intensityCarrot = Number(intensity_carrot);
         this.comments = comments;
+        this.priceRange = price_range;
         this.createdAt = created_at;
     }
 
@@ -55,6 +56,7 @@ export class Encuesta {
             would_recommend: this.wouldRecommend,
             why_recommend: this.whyRecommend,
             comments: this.comments,
+            price_range: this.priceRange,
             desc_odor: this.descOdor,
             desc_aroma: this.descAroma,
             desc_sweetness: this.descSweetness,
