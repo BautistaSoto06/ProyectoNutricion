@@ -12,8 +12,6 @@ const SESSION_KEY = 'adm_token';
 
 interface SurveyResponse {
   id: number;
-  name: string;
-  age: number;
   gender: string;
   faculty: string;
   wouldRecommend: boolean;
@@ -73,29 +71,6 @@ const GenderChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) =
           <YAxis allowDecimals={false} tick={{ fill: '#c9a86c', fontSize: 12 }} />
           <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'rgba(201,168,108,0.08)' }} />
           <Bar dataKey="Cantidad" fill="#c9a86c" radius={[6, 6, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
-};
-
-/* ─── Age bar chart ────────────────────────────────── */
-const AgeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
-  const data = [
-    { name: '18-25', Cantidad: responses.filter(r => r.age >= 18 && r.age <= 25).length },
-    { name: '26-40', Cantidad: responses.filter(r => r.age >= 26 && r.age <= 40).length },
-    { name: '+40',   Cantidad: responses.filter(r => r.age > 40).length },
-  ];
-  return (
-    <div className="adm-card">
-      <h2 className="adm-card-title">Distribución por Edad</h2>
-      <ResponsiveContainer width="100%" height={260}>
-        <BarChart data={data} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#3a2010" />
-          <XAxis dataKey="name" tick={{ fill: '#c9a86c', fontSize: 13 }} />
-          <YAxis allowDecimals={false} tick={{ fill: '#c9a86c', fontSize: 12 }} />
-          <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'rgba(201,168,108,0.08)' }} />
-          <Bar dataKey="Cantidad" fill="#e8975a" radius={[6, 6, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -288,7 +263,6 @@ const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, o
       <main className="adm-grid">
         {/* Demografía */}
         <GenderChart responses={responses} />
-        <AgeChart responses={responses} />
 
         {/* Sabores */}
         <FlavorRadar responses={responses} />
