@@ -3,6 +3,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis, Legend,
+  PieChart, Pie, Cell,
 } from 'recharts';
 import AdminLogin from './login';
 import './admin.css';
@@ -16,6 +17,9 @@ interface SurveyResponse {
   gender: string;
   faculty: string;
   wouldRecommend: boolean;
+  whyRecommend: string;
+  comments: string;
+  priceRange: string;
   descOdor: number;
   descAroma: number;
   descSweetness: number;
@@ -98,6 +102,85 @@ const AgeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   );
 };
 
+/* ─── Recommendation pie chart ─────────────────────── */
+const RADIAN = Math.PI / 180;
+const PIE_COLORS = ['#6dbb8a', '#d97070'];
+
+const renderPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
+  if (percent === 0) return null;
+  const r = innerRadius + (outerRadius - innerRadius) * 0.55;
+  const x = cx + r * Math.cos(-midAngle * RADIAN);
+  const y = cy + r * Math.sin(-midAngle * RADIAN);
+  return (
+    <text x={x} y={y} fill="#fff" textAnchor="middle" dominantBaseline="central" fontSize={14} fontWeight={700}>
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
+const RecommendPieChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
+  const si = responses.filter(r => r.wouldRecommend === true).length;
+  const no = responses.filter(r => r.wouldRecommend === false).length;
+  const data = [
+    { name: 'Sí lo recomendaría', value: si },
+    { name: 'No lo recomendaría', value: no },
+  ];
+  return (
+    <div className="adm-card">
+      <h2 className="adm-card-title">¿Recomendarías el producto?</h2>
+      <ResponsiveContainer width="100%" height={280}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            outerRadius={100}
+            dataKey="value"
+            labelLine={false}
+            label={renderPieLabel}
+          >
+            {data.map((_, i) => (
+              <Cell key={i} fill={PIE_COLORS[i]} />
+            ))}
+          </Pie>
+          <Tooltip contentStyle={TOOLTIP_STYLE} />
+          <Legend wrapperStyle={{ color: '#c9a86c', fontSize: 13, paddingTop: 8 }} />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
+/* ─── Price range bar chart ────────────────────────── */
+const PRICE_LABELS: Record<string, string> = {
+  'Menos de $1.000':  '< $1.000',
+  '$1.000 – $1.500':  '$1k – $1.5k',
+  '$1.500 – $2.000':  '$1.5k – $2k',
+  'Más de $2.000':    '> $2.000',
+};
+const PRICE_ORDER = ['Menos de $1.000', '$1.000 – $1.500', '$1.500 – $2.000', 'Más de $2.000'];
+
+const PriceRangeChart: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
+  const data = PRICE_ORDER.map(range => ({
+    name: PRICE_LABELS[range],
+    Cantidad: responses.filter(r => r.priceRange === range).length,
+  }));
+  return (
+    <div className="adm-card">
+      <h2 className="adm-card-title">¿Cuánto pagarías por el producto?</h2>
+      <ResponsiveContainer width="100%" height={280}>
+        <BarChart data={data} margin={{ top: 8, right: 16, left: -16, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#3a2010" />
+          <XAxis dataKey="name" tick={{ fill: '#c9a86c', fontSize: 12 }} />
+          <YAxis allowDecimals={false} tick={{ fill: '#c9a86c', fontSize: 12 }} />
+          <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'rgba(201,168,108,0.08)' }} />
+          <Bar dataKey="Cantidad" fill="#a78bfa" radius={[6, 6, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
 /* ─── Flavor radar chart ───────────────────────────── */
 const FlavorRadar: React.FC<{ responses: SurveyResponse[] }> = ({ responses }) => {
   const data = [
@@ -143,6 +226,25 @@ const IntervalBarChart: React.FC<{
   </div>
 );
 
+/* ─── Text responses block ─────────────────────────── */
+const TextResponsesBlock: React.FC<{ title: string; items: string[] }> = ({ title, items }) => {
+  const filled = items.filter(t => t && t.trim().length > 0);
+  return (
+    <div className="adm-card">
+      <h2 className="adm-card-title">{title} <span style={{ color: '#6b4a2a', fontWeight: 400, fontSize: '0.85rem' }}>({filled.length} respuestas)</span></h2>
+      {filled.length === 0 ? (
+        <p className="adm-text-empty">Sin respuestas todavía.</p>
+      ) : (
+        <div className="adm-text-list">
+          {filled.map((text, i) => (
+            <div key={i} className="adm-text-item">{text}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 /* ─── Dashboard (authenticated view) ──────────────── */
 const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, onLogout }) => {
   const [responses, setResponses] = useState<SurveyResponse[]>([]);
@@ -184,13 +286,32 @@ const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, o
       </header>
 
       <main className="adm-grid">
+        {/* Demografía */}
         <GenderChart responses={responses} />
         <AgeChart responses={responses} />
+
+        {/* Sabores */}
         <FlavorRadar responses={responses} />
-        <IntervalBarChart title="Nivel de Dulzor"              data={countIntervals(responses, 'descSweetness')} color="#d4a843" />
-        <IntervalBarChart title="Aceptabilidad de la Textura"  data={countIntervals(responses, 'descTexture')}   color="#b87d3a" />
-        <IntervalBarChart title="Intensidad del Aroma"         data={countIntervals(responses, 'descAroma')}     color="#9b6d3f" />
-        <IntervalBarChart title="Intensidad del Olor"          data={countIntervals(responses, 'descOdor')}      color="#7a5230" />
+
+        {/* Atributos descriptivos */}
+        <IntervalBarChart title="Nivel de Dulzor"             data={countIntervals(responses, 'descSweetness')} color="#d4a843" />
+        <IntervalBarChart title="Aceptabilidad de la Textura" data={countIntervals(responses, 'descTexture')}   color="#b87d3a" />
+        <IntervalBarChart title="Intensidad del Aroma"        data={countIntervals(responses, 'descAroma')}     color="#9b6d3f" />
+        <IntervalBarChart title="Intensidad del Olor"         data={countIntervals(responses, 'descOdor')}      color="#7a5230" />
+
+        {/* Recomendación y precio */}
+        <RecommendPieChart responses={responses} />
+        <PriceRangeChart   responses={responses} />
+
+        {/* Respuestas de texto */}
+        <TextResponsesBlock
+          title="¿Por qué recomendarías el producto?"
+          items={responses.map(r => r.whyRecommend)}
+        />
+        <TextResponsesBlock
+          title="¿Qué cambios le harías?"
+          items={responses.map(r => r.comments)}
+        />
       </main>
     </div>
   );
