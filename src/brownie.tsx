@@ -180,7 +180,7 @@ const BrownieSurvey: React.FC = () => {
               >
                 <option value="">Seleccionar...</option>
                 <option value="ingenieria">Facultad de Ciencias Sociales y Humanidades</option>
-                <option value="ciencias">Facultad de Ciencias de la Salud y Bien Estar</option>
+                <option value="ciencias">Facultad de Ciencias de la Salud y Bienestar</option>
                 <option value="humanidades">Facultad de Ingenieria, Tecnologia y Arquitectura</option>
                 <option value="salud">Facultad de Ciencias Juridicas y Politicas</option>
                 <option value="artes">Facultad de Ciencias Economicas Y Ambientales</option>
