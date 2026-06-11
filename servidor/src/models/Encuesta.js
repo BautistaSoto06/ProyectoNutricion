@@ -38,6 +38,7 @@ export class Encuesta {
     }
 
     isValid() {
+        if (!this.age || isNaN(this.age) || this.age < 1) return false;
         const numerics = [
             this.descOdor, this.descAroma, this.descSweetness, this.descTexture,
             this.intensityBanana, this.intensityChocolate, this.intensityGarbanzo, this.intensityCarrot

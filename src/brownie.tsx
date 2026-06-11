@@ -58,12 +58,13 @@ const BrownieSurvey: React.FC = () => {
 
     try {
       
+        const payload = { ...formData, age: parseInt(formData.age, 10) || null };
         const response = await fetch(`/api/v3/encuestas/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       let result;
