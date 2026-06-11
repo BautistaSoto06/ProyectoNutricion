@@ -98,7 +98,7 @@ const BrownieSurvey: React.FC = () => {
         <div className="bs-thanks">
           <div className="bs-thanks-icon">✨</div>
           <h1>¡Muchas gracias!</h1>
-          <p>Tu opinión nos ayuda a mejorar nuestro budin de garbanzo y zanahoria.</p>
+          <p>Tu opinión nos ayuda a mejorar nuestro Brownie de garbanzo y zanahoria.</p>
           <button className="bs-submit" onClick={() => window.location.reload()}>
             Enviar otra respuesta
           </button>
