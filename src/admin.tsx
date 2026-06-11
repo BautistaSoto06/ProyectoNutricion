@@ -278,7 +278,7 @@ const Dashboard: React.FC<{ token: string; onLogout: () => void }> = ({ token, o
     <div className="adm-root">
       <header className="adm-header">
         <h1 className="adm-title">Panel de Administración</h1>
-        <p className="adm-subtitle">Evaluación Sensorial — Budín de Garbanzo y Zanahoria</p>
+        <p className="adm-subtitle">Evaluación Sensorial — Brownie de Garbanzo y Zanahoria</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' }}>
           <div className="adm-total-badge">{responses.length} respuestas totales</div>
           <button className="adm-logout-btn" onClick={onLogout}>Cerrar sesión</button>
