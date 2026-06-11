@@ -15,6 +15,7 @@ const supabase = createClient(
 class Encuesta {
     constructor({
         id = null,
+        age = null,
         gender,
         faculty,
         would_recommend,
@@ -32,6 +33,7 @@ class Encuesta {
         created_at = null
     }) {
         this.id = id;
+        this.age = age ? Number(age) : null;
         this.gender = gender;
         this.faculty = faculty;
         this.wouldRecommend = would_recommend === 'si' || would_recommend === true;
@@ -50,6 +52,7 @@ class Encuesta {
     }
 
     isValid() {
+        if (!this.age || isNaN(this.age) || this.age < 1) return false;
         const numerics = [
             this.descOdor, this.descAroma, this.descSweetness, this.descTexture,
             this.intensityBanana, this.intensityChocolate, this.intensityGarbanzo, this.intensityCarrot
@@ -59,6 +62,7 @@ class Encuesta {
 
     toDatabaseJson() {
         return {
+            age: this.age,
             gender: this.gender,
             faculty: this.faculty,
             would_recommend: this.wouldRecommend,
