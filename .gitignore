@@ -21,3 +21,7 @@ yarn-error.log*
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

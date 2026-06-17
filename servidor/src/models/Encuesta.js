@@ -1,4 +1,4 @@
-export class Encuesta {
+export default class Encuesta {
     constructor({
         id = null,
         age = null,
@@ -38,12 +38,12 @@ export class Encuesta {
     }
 
     isValid() {
-        if (!this.age || isNaN(this.age) || this.age < 1) return false;
+        if (!this.age || Number.isNaN(this.age) || this.age < 1) return false;
         const numerics = [
             this.descOdor, this.descAroma, this.descSweetness, this.descTexture,
             this.intensityBanana, this.intensityChocolate, this.intensityGarbanzo, this.intensityCarrot
         ];
-        return numerics.every(v => !isNaN(v) && v >= 1 && v <= 10);
+        return numerics.every(v => !Number.isNaN(v) && v >= 1 && v <= 10);
     }
 
     toDatabaseJson() {
