@@ -54,24 +54,70 @@ test.describe('Brownie Survey', () => {
     await expect(page.getByText('Tu opinión nos ayuda a mejorar')).toBeVisible();
   });
 
-  test('should show browser validation errors for mandatory fields', async ({ page }) => {
-    // Try to submit without filling anything
+  test('CP-12: Intentar enviar sin completar ningún campo, verificar mensajes de error', async ({ page }) => {
+    // Intentar enviar sin completar nada
     await page.getByRole('button', { name: 'Enviar Encuesta' }).click();
     
-    // Check if we are still on the survey page (didn't submit)
-    await expect(page.getByRole('heading', { name: 'Evaluación Sensorial' })).toBeVisible();
+    // Verificar que los campos obligatorios son inválidos (validación nativa del navegador)
+    const isAgeInvalid = await page.$eval('input[name="age"]', (input: HTMLInputElement) => !input.validity.valid);
+    const isFacultyInvalid = await page.$eval('select[name="faculty"]', (input: HTMLSelectElement) => !input.validity.valid);
+    const isGenderInvalid = await page.$eval('select[name="gender"]', (input: HTMLSelectElement) => !input.validity.valid);
     
-    // Fill only age and try again
-    await page.getByPlaceholder('Ej: 22').fill('22');
-    await page.getByRole('button', { name: 'Enviar Encuesta' }).click();
+    expect(isAgeInvalid).toBeTruthy();
+    expect(isFacultyInvalid).toBeTruthy();
+    expect(isGenderInvalid).toBeTruthy();
+    
+    // Verificar que seguimos en la página de la encuesta
     await expect(page.getByRole('heading', { name: 'Evaluación Sensorial' })).toBeVisible();
   });
+
+  test('CP-13: Completar solo un campo y enviar, verificar mensajes de error', async ({ page }) => {
+    // Completar solo la edad
+    await page.getByPlaceholder('Ej: 22').fill('25');
+    
+    // Intentar enviar
+    await page.getByRole('button', { name: 'Enviar Encuesta' }).click();
+    
+    // Verificar que otros campos obligatorios siguen siendo inválidos
+    const isFacultyInvalid = await page.$eval('select[name="faculty"]', (input: HTMLSelectElement) => !input.validity.valid);
+    const isGenderInvalid = await page.$eval('select[name="gender"]', (input: HTMLSelectElement) => !input.validity.valid);
+    
+    expect(isFacultyInvalid).toBeTruthy();
+    expect(isGenderInvalid).toBeTruthy();
+  });
+
+test('CP-14: Ingresar edad fuera de rango, verificar renderizado de banner React', async ({ page }) => {
+  const ageInput = page.getByPlaceholder('Ej: 22');
+  const submitButton = page.getByRole('button', { name: 'Enviar Encuesta' });
+  const errorBanner = page.locator('.bs-error-banner');
+
+  // Caso 1: Edad por encima del rango
+  await ageInput.fill('150');
+  await submitButton.click();
+  
+  await expect(errorBanner).toBeVisible();
+  await expect(errorBanner).toContainText('Seleccione una edad dentro del rango permitido (15-99)');
+
+  // Caso 2: Edad por debajo del rango
+  // Usamos .fill() de nuevo para reemplazar el valor anterior
+  await ageInput.fill('5');
+  await submitButton.click();
+  
+  await expect(errorBanner).toBeVisible();
+
+  // Caso 3: Edad válida
+  await ageInput.fill('25');
+  await submitButton.click();
+  
+  // Validamos que React limpie el estado del error y el banner desaparezca del DOM
+  await expect(errorBanner).toBeHidden();
+});
 
   test('should allow submitting another response after success', async ({ page }) => {
     // Fill minimum required and submit
     await page.getByPlaceholder('Ej: 22').fill('25');
-    await page.locator('select[name="faculty"]').selectOption('ciencias');
-    await page.locator('select[name="gender"]').selectOption('femenino');
+    await page.locator('select[name="faculty"]').selectOption('ingenieria');
+    await page.locator('select[name="gender"]').selectOption('masculino');
 
     await page.route('/api/v3/encuestas/submit', async route => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ message: 'Success' }) });
@@ -83,7 +129,7 @@ test.describe('Brownie Survey', () => {
     // Click "Enviar otra respuesta"
     await page.getByRole('button', { name: 'Enviar otra respuesta' }).click();
 
-    // Verify we are back at the beginning
+    // Verificar que la página de encuesta carga correctamente y el campo edad está vacío
     await expect(page.getByRole('heading', { name: 'Evaluación Sensorial' })).toBeVisible();
     await expect(page.getByPlaceholder('Ej: 22')).toHaveValue('');
   });
@@ -93,7 +139,7 @@ test.describe('Brownie Survey', () => {
     await page.locator('select[name="faculty"]').selectOption('ciencias');
     await page.locator('select[name="gender"]').selectOption('femenino');
 
-    // Mock a failed API response
+    // Mock respuesta fallida del servidor
     await page.route('/api/v3/encuestas/submit', async route => {
       await route.fulfill({
         status: 400,
@@ -104,13 +150,21 @@ test.describe('Brownie Survey', () => {
 
     await page.getByRole('button', { name: 'Enviar Encuesta' }).click();
 
-    // Verify error banner
+    // Verificar que se muestra el mensaje de error
     await expect(page.locator('.bs-error-banner')).toBeVisible();
     await expect(page.locator('.bs-error-banner')).toContainText('Error de servidor');
   });
 });
 
 test.describe('Admin Panel', () => {
+  test('should show validation error on empty credentials', async ({ page }) => {
+    await page.goto('/admin');
+    await page.getByRole('button', { name: 'Ingresar' }).click();
+    
+    const isUserInvalid = await page.$eval('input[placeholder="Ingresá tu usuario"]', (input: HTMLInputElement) => !input.validity.valid);
+    expect(isUserInvalid).toBeTruthy();
+  });
+
   test('should show error on invalid credentials', async ({ page }) => {
     await page.goto('/admin');
     
@@ -171,16 +225,18 @@ test.describe('Admin Panel', () => {
     await expect(page.getByText('Panel de Administración')).toBeVisible();
     await expect(page.locator('.adm-total-badge')).toContainText('1 respuestas totales');
     
-    // Verify some charts are rendered (Recharts uses svg)
-    await expect(page.locator('.recharts-responsive-container')).toHaveCount(8);
-    await expect(page.getByText('Distribución por Edad')).toBeVisible();
+    // CP-18, CP-19, CP-20: Verificar títulos de los gráficos específicos
+    await expect(page.getByText('Distribución por Sexo')).toBeVisible();
     await expect(page.getByText('Intensidad de Sabores')).toBeVisible();
+    await expect(page.getByText('¿Recomendarías el producto?')).toBeVisible();
+    
+    await expect(page.locator('.recharts-responsive-container')).toHaveCount(9);
   });
 
   test('should logout and return to login screen', async ({ page }) => {
     await page.goto('/admin');
 
-    // Mock successful login and data to reach dashboard
+    // Mock login and dashboard data
     await page.route('/api/v3/admin/login', async route => {
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ token: 'mock-token' }) });
     });
