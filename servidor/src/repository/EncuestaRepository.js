@@ -9,7 +9,8 @@ export class EncuestaRepository {
                 console.error('Error fetching encuestas:', error);
                 throw error;
             }
-        return data.map(serveyJson => new Encuesta(serveyJson));    
+            if (!data) return [];
+            return data.map(serveyJson => new Encuesta(serveyJson));    
 
         }catch (error) {
             console.error('Error encuesta repository getAll:', error);
@@ -33,8 +34,9 @@ export class EncuestaRepository {
                 console.error('Error detallado de Supabase:', error);
                 throw new Error(`Error de Supabase al crear encuesta: ${error.message}`);
             }
-
-            // Devolvemos la nueva encuesta creada como una instancia de la clase Encuesta
+            if (!data || data.length === 0) {
+                throw new Error('Supabase no devolvió el registro insertado.');
+            }
             return new Encuesta(data[0]);
         } catch (error) {
             console.error('Error en encuestRepository.create:', error);

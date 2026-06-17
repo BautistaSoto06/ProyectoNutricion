@@ -13,7 +13,11 @@ dotenv.config({ path: join(__dirname, '.env') });
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = process.env.NODE_ENV === 'production'
+    ? ['https://proyecto-nutricion.vercel.app']
+    : ['http://localhost:5173'];
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use('/api/v1/encuestas', encuestaRouter);

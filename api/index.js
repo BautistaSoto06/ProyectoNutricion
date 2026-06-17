@@ -4,7 +4,11 @@ import jwt from 'jsonwebtoken';
 import { createClient } from '@supabase/supabase-js';
 
 const app = express();
-app.use(cors());
+const allowedOrigins = process.env.NODE_ENV === 'production'
+    ? ['https://proyecto-nutricion.vercel.app']
+    : ['http://localhost:5173'];
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 const supabase = createClient(
@@ -112,7 +116,7 @@ app.get('/api/v3/encuestas/data', requireAuth, async (req, res) => {
     try {
         const { data, error } = await supabase.from('survey_responses').select('*');
         if (error) throw error;
-        const encuestas = data.map(row => new Encuesta(row));
+        const encuestas = (data ?? []).map(row => new Encuesta(row));
         res.status(200).json({ success: true, count: encuestas.length, data: encuestas });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error al obtener encuestas', error: error.message });
@@ -132,6 +136,7 @@ app.post('/api/v3/encuestas/submit', async (req, res) => {
         }
         const { data, error } = await supabase.from('survey_responses').insert([encuesta.toDatabaseJson()]).select();
         if (error) throw new Error(`Error de Supabase: ${error.message}`);
+        if (!data || data.length === 0) throw new Error('Supabase no devolvió el registro insertado.');
         const guardada = new Encuesta(data[0]);
         res.status(201).json({ success: true, message: 'Encuesta registrada correctamente.', data: guardada });
     } catch (error) {
@@ -144,7 +149,7 @@ app.get('/api/v2/encuestas/data', async (req, res) => {
     try {
         const { data, error } = await supabase.from('survey_responses').select('*');
         if (error) throw error;
-        const encuestas = data.map(row => new Encuesta(row));
+        const encuestas = (data ?? []).map(row => new Encuesta(row));
         res.status(200).json({ success: true, count: encuestas.length, data: encuestas });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error al obtener encuestas', error: error.message });
@@ -163,6 +168,7 @@ app.post('/api/v2/encuestas/submit', async (req, res) => {
         }
         const { data, error } = await supabase.from('survey_responses').insert([encuesta.toDatabaseJson()]).select();
         if (error) throw new Error(`Error de Supabase: ${error.message}`);
+        if (!data || data.length === 0) throw new Error('Supabase no devolvió el registro insertado.');
         const guardada = new Encuesta(data[0]);
         res.status(201).json({ success: true, message: 'Encuesta v2 guardada con éxito', data: guardada });
     } catch (error) {
