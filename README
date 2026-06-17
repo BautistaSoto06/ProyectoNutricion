@@ -1,0 +1,1 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=BautistaSoto06_ProyectoNutricion&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=BautistaSoto06_ProyectoNutricion)
