@@ -2,6 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import encuestaRouter from './src/routes/v1/encuestaRouter.js';
 import encuestaRouterV2 from './src/routes/v2/encuestaRouter.js';
 import encuestaRouterV3 from './src/routes/v3/encuestaRouter.js';

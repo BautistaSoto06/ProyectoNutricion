@@ -69,15 +69,27 @@ const submitEncuestaHandler = async (req, res, successMessage) => {
 //  RUTAS DE LA API 
 // v3 Admin login
 app.post('/api/v3/admin/login', (req, res) => {
-    const { username, password } = req.body ?? {};
-    if (!username || !password) {
-        return res.status(400).json({ success: false, message: 'Usuario y contraseña requeridos.' });
+    try {
+        const { username, password } = req.body ?? {};
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: 'Usuario y contraseña requeridos.' });
+        }
+        
+        if (!process.env.ADMIN_USER || !process.env.ADMIN_PASSWORD || !process.env.JWT_SECRET) {
+            console.error('Missing environment variables for admin login');
+            return res.status(500).json({ success: false, message: 'Error de configuración del servidor (variables de entorno faltantes).' });
+        }
+
+        if (username !== process.env.ADMIN_USER || password !== process.env.ADMIN_PASSWORD) {
+            return res.status(401).json({ success: false, message: 'Credenciales incorrectas.' });
+        }
+        
+        const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '8h' });
+        return res.status(200).json({ success: true, token });
+    } catch (error) {
+        console.error('Login error:', error);
+        return res.status(500).json({ success: false, message: 'Error interno al procesar el login', error: error.message });
     }
-    if (username !== process.env.ADMIN_USER || password !== process.env.ADMIN_PASSWORD) {
-        return res.status(401).json({ success: false, message: 'Credenciales incorrectas.' });
-    }
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '8h' });
-    return res.status(200).json({ success: true, token });
 });
 
 // v3 — Encuestas
