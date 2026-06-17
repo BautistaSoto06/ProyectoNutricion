@@ -56,9 +56,23 @@ const BrownieSurvey: React.FC = () => {
     setLoading(true);
     setError(null);
 
+    // Manual Validation
+    const ageVal = parseInt(formData.age, 10);
+    if (!formData.age || isNaN(ageVal) || ageVal < 15 || ageVal > 99) {
+      setError('Seleccione una edad dentro del rango permitido (15-99)');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.faculty || !formData.gender) {
+      setError('Por favor, complete todos los campos obligatorios');
+      setLoading(false);
+      return;
+    }
+
     try {
 
-        const payload = { ...formData, age: parseInt(formData.age, 10) || null };
+        const payload = { ...formData, age: ageVal || null };
         const response = await fetch(`/api/v3/encuestas/submit`, {
         method: 'POST',
         headers: {
@@ -149,7 +163,7 @@ const BrownieSurvey: React.FC = () => {
         <p className="bs-subtitle">Sin Tacc ● Natural ● Delicioso</p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         <section className="bs-card">
           <div className="bs-card-header">
             <span className="bs-step">1</span>

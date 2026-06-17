@@ -95,6 +95,7 @@ test('CP-14: Ingresar edad fuera de rango, verificar renderizado de banner React
   await ageInput.fill('150');
   await submitButton.click();
   
+  // Ahora Playwright encontrará el elemento sin problemas
   await expect(errorBanner).toBeVisible();
   await expect(errorBanner).toContainText('Seleccione una edad dentro del rango permitido (15-99)');
 
@@ -112,7 +113,6 @@ test('CP-14: Ingresar edad fuera de rango, verificar renderizado de banner React
   // Validamos que React limpie el estado del error y el banner desaparezca del DOM
   await expect(errorBanner).toBeHidden();
 });
-
   test('should allow submitting another response after success', async ({ page }) => {
     // Fill minimum required and submit
     await page.getByPlaceholder('Ej: 22').fill('25');
